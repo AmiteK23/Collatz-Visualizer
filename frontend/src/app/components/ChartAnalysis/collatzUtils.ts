@@ -3,7 +3,7 @@ import { CollatzData, RangeData, SixNData, SixNRange } from "./types";
 // Configuration for client-side vs server-side processing
 export const CLIENT_CALCULATION_THRESHOLD = 100; // Calculate client-side for n <= 100
 export const CLIENT_RANGE_CALCULATION_THRESHOLD = 30; // Calculate range client-side if range size <= 30
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
 /**
  * Calculate the Collatz sequence for a number on the client side
