@@ -22,7 +22,7 @@ export default function ThreeDVis() {
   const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [isMaxRange, setIsMaxRange] = useState(false);
-  const [showUsage, setShowUsage] = useState(true);
+  const [showUsage, setShowUsage] = useState(false);
 
   // Set isClient to true when component mounts on client
   useEffect(() => {
