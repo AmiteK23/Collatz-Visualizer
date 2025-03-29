@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { MulData } from "./types";
 import styles from "./ThreeDVis.module.scss";
+import { getApiBaseUrl } from "../../../utils/getApiBaseUrl";
 
-// API base URL
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+//API URL
+const API_BASE_URL = getApiBaseUrl();
 
 // Maximum range size to prevent performance issues
 export const MAX_RANGE_SIZE = 10000;

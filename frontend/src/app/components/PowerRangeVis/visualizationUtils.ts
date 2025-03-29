@@ -1,4 +1,5 @@
 import { ChartData, PathsGroupData } from "./types";
+import { getApiBaseUrl } from "../../../utils/getApiBaseUrl";
 
 /**
  * Calculate Collatz sequence using 1.5x + 0.5 notation (equivalent to (3x+1)/2 for odd numbers)
@@ -184,8 +185,8 @@ export const fetchCollatzData = async (
   start: number,
   end: number
 ): Promise<CollatzApiResponse> => {
-  const API_BASE_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  //API URL
+  const API_BASE_URL = getApiBaseUrl();
 
   try {
     const response = await fetch(

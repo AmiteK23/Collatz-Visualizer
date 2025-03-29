@@ -1,10 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SingleCollatzAnalysis from "./SingleCollatzAnalysis";
-import RangeCollatzAnalysis from "./RangeCollatzAnalysis";
-import SixNCollatzAnalysis from "./SixNCollatzAnalysis";
+import dynamic from "next/dynamic";
 import styles from "./ChartAnalysis.module.scss";
+
+const SingleCollatzAnalysis = dynamic(() => import("./SingleCollatzAnalysis"), {
+  ssr: false,
+});
+const RangeCollatzAnalysis = dynamic(() => import("./RangeCollatzAnalysis"), {
+  ssr: false,
+});
+const SixNCollatzAnalysis = dynamic(() => import("./SixNCollatzAnalysis"), {
+  ssr: false,
+});
 
 const ChartAnalysis: React.FC = () => {
   const [isClient, setIsClient] = useState(false);

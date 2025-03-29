@@ -1,6 +1,8 @@
 import { CollatzData, CollatzRangeResponse, MulData } from "./types";
+import { getApiBaseUrl } from "../../../utils/getApiBaseUrl";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+//API URL
+const API_BASE_URL = getApiBaseUrl();
 
 /**
  * Interface for visualization data response from backend

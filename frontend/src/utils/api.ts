@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getApiBaseUrl } from "@/utils/getApiBaseUrl"; // adjust the path if needed
 
-const API_URL = "http://127.0.0.1:8000"; // Adjust if using a different backend host
+const API_URL = getApiBaseUrl();
 
 // Fetch Collatz sequence for a single number
 export const fetchCollatzNumber = async (number: number) => {
