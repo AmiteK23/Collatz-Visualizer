@@ -95,25 +95,15 @@ export default function ThreeDVis() {
 
   return (
     <div className={styles.ThreeDVisWrapper} id="threeDVis">
-      <h2 className={styles.ThreeDVisTitle}>
-        Interactive 3D Visualization Tool
-      </h2>
-      <p className={styles.ThreeDVisDescription}>
-        This 3D visualization shows orbital patterns of odd numbers through the
-        Collatz process. Each orbit represents a number, with its path shaped by
-        division counts and odd-step patterns. Colors indicate special
-        properties: orange for Mersenne-like numbers (2^n-1), blue for 3 mod 4
-        numbers.
-      </p>
       <div className={styles.usageSection}>
         <div
           className={styles.usageHeader}
           onClick={() => setShowUsage((prev) => !prev)}
         >
-          <h3 className={styles.subsectionTitle}>How to Use</h3>
+          <h2 className={styles.ThreeDVisTitle}>3D Visualizer</h2>
           <button
             className={styles.toggleButton}
-            aria-label="Toggle How to Use section"
+            aria-label="Toggle the Description of the 3D tool"
           >
             {showUsage ? "−" : "+"}
           </button>
@@ -124,6 +114,13 @@ export default function ThreeDVis() {
             showUsage ? styles.open : styles.closed
           }`}
         >
+          <p className={styles.ThreeDVisDescription}>
+            This 3D visualization shows orbital patterns of odd numbers through
+            the Collatz process. Each orbit represents a number, with its path
+            shaped by division counts and odd-step patterns. Colors indicate
+            special properties: orange for Mersenne-like numbers (2^n-1), blue
+            for 3 mod 4 numbers.
+          </p>
           <ol className={styles.numberedList}>
             <li>
               <strong>Set the Number Range:</strong> Enter the starting and

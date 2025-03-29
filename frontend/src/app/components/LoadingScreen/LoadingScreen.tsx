@@ -10,11 +10,15 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
   useEffect(() => {
     if (fadeOut) {
-      setTimeout(() => setVisible(false), 500); // Match CSS transition duration
+      setTimeout(() => setVisible(false), 500);
     }
   }, [fadeOut]);
 
   useEffect(() => {
+    if (!mountRef.current) return;
+
+    const mountEl = mountRef.current;
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color("#0a0f24");
 
@@ -28,7 +32,7 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    mountRef.current?.appendChild(renderer.domElement);
+    mountEl.appendChild(renderer.domElement);
 
     const material = new THREE.LineBasicMaterial({ color: 0xa4f971 });
 
@@ -60,14 +64,17 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
     animate();
 
-    window.addEventListener("resize", () => {
+    const onResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-    });
+    };
+
+    window.addEventListener("resize", onResize);
 
     return () => {
-      mountRef.current?.removeChild(renderer.domElement);
+      window.removeEventListener("resize", onResize);
+      mountEl.removeChild(renderer.domElement);
     };
   }, []);
 
