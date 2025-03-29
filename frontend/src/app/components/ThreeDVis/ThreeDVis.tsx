@@ -22,6 +22,7 @@ export default function ThreeDVis() {
   const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [isMaxRange, setIsMaxRange] = useState(false);
+  const [showUsage, setShowUsage] = useState(true);
 
   // Set isClient to true when component mounts on client
   useEffect(() => {
@@ -105,24 +106,42 @@ export default function ThreeDVis() {
         numbers.
       </p>
       <div className={styles.usageSection}>
-        <h3 className={styles.subsectionTitle}>How to Use</h3>
-        <ol className={styles.numberedList}>
-          <li>
-            <strong>Set the Number Range:</strong> Enter the starting and ending
-            numbers to generate orbits for that range. Smaller ranges (e.g.,
-            3–101) work best for clear visualization.
-          </li>
-          <li>
-            <strong>Interact with the 3D Model:</strong> Click and drag to
-            rotate the view, scroll to zoom in/out, and right-click to pan
-            across the orbital patterns.
-          </li>
-          <li>
-            <strong>Observe Color Patterns:</strong> Pay attention to how
-            different colored paths (representing different types of numbers)
-            behave in the 3D space.
-          </li>
-        </ol>
+        <div
+          className={styles.usageHeader}
+          onClick={() => setShowUsage((prev) => !prev)}
+        >
+          <h3 className={styles.subsectionTitle}>How to Use</h3>
+          <button
+            className={styles.toggleButton}
+            aria-label="Toggle How to Use section"
+          >
+            {showUsage ? "−" : "+"}
+          </button>
+        </div>
+
+        <div
+          className={`${styles.usageContent} ${
+            showUsage ? styles.open : styles.closed
+          }`}
+        >
+          <ol className={styles.numberedList}>
+            <li>
+              <strong>Set the Number Range:</strong> Enter the starting and
+              ending numbers to generate orbits for that range. Smaller ranges
+              (e.g., 3–101) work best for clear visualization.
+            </li>
+            <li>
+              <strong>Interact with the 3D Model:</strong> Click and drag to
+              rotate the view, scroll to zoom in/out, and right-click to pan
+              across the orbital patterns.
+            </li>
+            <li>
+              <strong>Observe Color Patterns:</strong> Pay attention to how
+              different colored paths (representing different types of numbers)
+              behave in the 3D space.
+            </li>
+          </ol>
+        </div>
       </div>
 
       {isClient && (

@@ -35,6 +35,45 @@
   border-radius: 10px;
   color: $gray-700;
   line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.usageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggleButton {
+  font-size: 52px;
+  background: none;
+  border: none;
+  color: $color-primary-dark;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.usageContent {
+  max-height: 1000px;
+  overflow: hidden;
+  opacity: 1;
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: all 0.4s ease-in-out;
+}
+
+.usageContent.closed {
+  max-height: 0;
+  opacity: 0;
+  transform: scaleY(0.9);
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
 }
 
 .subsectionTitle {
