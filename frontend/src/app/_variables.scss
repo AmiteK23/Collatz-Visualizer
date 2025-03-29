@@ -1,0 +1,123 @@
+// //_variables.scss
+// $primary-bg: #fff;
+// $primary-text: #333;
+
+// $dark-bg: #121212;
+// $dark-text: #e0e0e0;
+
+// :root {
+//   --bg-primary: #ffffff;
+//   --bg-secondary: #f8f9fa;
+//   --text-primary: #333333;
+//   --text-secondary: #666666;
+//   --border-color: #eeeeee;
+//   --card-bg: #ffffff;
+//   --chart-bg: #ffffff;
+//   --button-bg: #4a90e2;
+//   --button-text: #ffffff;
+//   --input-border: #dddddd;
+//   --chart-grid: #e0e0e0;
+//   --shadow-color: rgba(0, 0, 0, 0.1);
+// }
+
+// // Dark theme variables
+// .darkTheme {
+//   --bg-primary: #121212;
+//   --bg-secondary: #1e1e1e;
+//   --text-primary: #e0e0e0;
+//   --text-secondary: #a0a0a0;
+//   --border-color: #333333;
+//   --card-bg: #1e1e1e;
+//   --chart-bg: #1e1e1e;
+//   --button-bg: #4a90e2;
+//   --button-text: #ffffff;
+//   --input-border: #404040;
+//   --chart-grid: #333333;
+//   --shadow-color: rgba(0, 0, 0, 0.3);
+// }
+// _variables.scss
+
+// Primary brand colors
+$color-primary: #4a90e2;
+$color-primary-dark: #3b82f6;
+$color-accent: #61dafb;
+$color-accent-light: #a4f971;
+
+// Neutrals / Grayscale
+$color-white: #ffffff;
+$color-black: #000000;
+
+$gray-50: #f9fafb;
+$gray-100: #f8fafc;
+$gray-200: #f3f4f6;
+$gray-300: #e5e7eb;
+$gray-400: #d1d5db;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Theme background/text colors
+$bg-light: $color-white;
+$bg-dark: #121212;
+$text-light: #333333;
+$text-dark: #e0e0e0;
+$border-light: #eeeeee;
+$border-dark: #333333;
+
+// Cards & metrics
+$card-bg-light: $color-white;
+$card-bg-dark: #1e1e1e;
+$metric-bg-light: #f8f9fa;
+$metric-bg-dark: #2d2d2d;
+
+// Alerts
+$info-bg: #eaf6ff;
+$info-border: #ffedd5;
+$warning-bg: #fffbeb;
+$warning-border: #fde68a;
+$warning-border-accent: #f59e0b;
+$danger-bg: #fee2e2;
+$danger-border: #fecaca;
+$danger-accent: #ef4444;
+$danger-text: #b91c1c;
+
+// Additional UI
+$shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.05);
+$shadow-large: 0 8px 30px rgba(0, 0, 0, 0.2);
+
+$default-bg: #f9f9f9;
+$default-text-color: #333;
+$bg-light: #ffffff;
+$bg-dark: #121212;
+$text-light: #333333;
+$text-dark: #e0e0e0;
+$border-light: #eeeeee;
+$border-dark: #333333;
+$button-primary: #4a90e2;
+$card-bg-light: #ffffff;
+$card-bg-dark: #1e1e1e;
+$metric-bg-light: #f8f9fa;
+$metric-bg-dark: #2d2d2d;
+
+$scene-bg: #111122;
+$range-info-bg: $info-bg;
+$range-info-border: $info-border;
+$range-info-accent: $color-primary-dark;
+
+//Header
+$header-bg: #0a0f24;
+$header-bg-blur: rgba($header-bg, 0.9);
+$header-bg-mobile: rgba($header-bg, 0.98);
+
+//Explanations
+$explanations-current-tab-green: #6fffdc;
+$explanations-text-color: #0a0f24;
+
+//Footer
+$footer-bg: #0a0f24;
+$footer-text: $color-white;
+$footer-border: rgba($color-primary, 0.3);
+$footer-border-strong: rgba($color-primary, 0.7);

@@ -1,0 +1,25 @@
+//AmiteK23
+// Global styles for the Collatz frontend
+@import "./variables"; // Import variables if needed
+//Test
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Prevent horizontal scrolling on mobile
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: $default-bg;
+  color: $default-text-color;
+}
+
+p {
+  margin-bottom: 10px;
+}

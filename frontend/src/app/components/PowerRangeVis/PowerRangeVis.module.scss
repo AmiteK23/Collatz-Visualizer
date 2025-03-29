@@ -1,0 +1,240 @@
+@import "../../_variables.scss"; // Import variables
+
+.collatzVisWrapper {
+  padding: 32px;
+  background-color: $gray-100;
+  border-radius: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: $shadow-medium;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.collatzVisTitle {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: $color-primary;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.collatzVisDescription {
+  max-width: 800px;
+  margin: 8px auto 24px;
+  font-size: 18px;
+  color: $gray-600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  position: relative;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: $gray-600;
+  }
+
+  input {
+    padding: 6px 10px;
+    border: 1px solid $gray-400;
+    border-radius: 4px;
+    width: 80px;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary-dark;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+  }
+
+  button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: $color-primary;
+    color: $color-white;
+    border: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+}
+
+.activeButton {
+  background-color: #10b981 !important;
+}
+
+.helpText {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: $gray-500;
+  margin-top: 8px;
+}
+
+.chartContainer {
+  margin: 32px 0;
+  background-color: $color-white;
+  border-radius: 8px;
+  box-shadow: $shadow-soft;
+  padding: 16px;
+  position: relative;
+  overflow-x: hidden;
+
+  h3 {
+    font-size: 20px;
+    color: $gray-600;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+}
+
+.chartControls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.legendToggle {
+  padding: 4px 12px;
+  font-size: 13px;
+  background-color: $gray-500;
+  color: $color-white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $gray-600;
+  }
+}
+
+.legendWrapper {
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid $gray-300;
+  margin-top: 16px;
+  transition: max-height 0.3s ease-in-out;
+
+  &.legendHidden {
+    max-height: 0;
+    overflow: hidden;
+    border-top: none;
+  }
+}
+
+.legendContent {
+  padding: 16px 0;
+}
+
+.legendTitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: $gray-600;
+}
+
+.legendItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+  padding: 8px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: $gray-600;
+  background-color: $gray-50;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid $gray-300;
+}
+
+.legendColor {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.loading {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: $gray-600;
+  background-color: $gray-100;
+  border-radius: 8px;
+  border: 2px dashed $gray-400;
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 400px;
+}
+
+.analyzeButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: $button-primary;
+  color: $bg-light;
+  border: none;
+  transition: all 0.2s ease-in-out;
+  margin-left: 8px;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.error {
+  background-color: $danger-bg;
+  border: 1px solid $danger-border;
+  border-left: 4px solid $danger-accent;
+  color: $danger-text;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+}

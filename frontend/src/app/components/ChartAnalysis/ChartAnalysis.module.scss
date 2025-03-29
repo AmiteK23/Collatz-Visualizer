@@ -1,0 +1,362 @@
+@import "../../_variables.scss"; // Import variables
+
+.chartAnalysis {
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: $bg-light;
+  color: $color-primary;
+  transition: background-color 0.3s color 0.3s ease-in-out;
+  border: 1px solid $border-light;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .chartAnalysisHeader {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .chartAnalysisDescription {
+    color: $gray-600;
+    margin-bottom: 60px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .themeToggleContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    .themeToggle {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      background-color: $button-primary;
+      color: $bg-light;
+      border: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  .dashboardCard {
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: $card-bg-light;
+    box-shadow: $shadow-soft;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+
+    .cardHeader {
+      padding: 20px;
+      border-bottom: 1px solid $border-light;
+
+      h2 {
+        color: $color-primary;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+      }
+    }
+
+    .cardContent {
+      padding: 20px;
+
+      .inputSection {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+
+        .numberInput {
+          flex: 1;
+          padding: 12px 16px;
+          border-radius: 6px;
+          font-size: 16px;
+          background-color: $card-bg-light;
+          color: $text-light;
+          border: 1px solid $border-light;
+          transition: all 0.2s ease;
+
+          &:focus {
+            outline: none;
+            border-color: $button-primary;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+          }
+
+          &::-webkit-inner-spin-button,
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+      }
+
+      .metricsGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+
+        .metricCard {
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          background-color: $metric-bg-light;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+          }
+
+          .metricLabel {
+            font-size: 14px;
+            color: lighten($text-light, 20%);
+            margin-bottom: 8px;
+          }
+
+          .metricValue {
+            font-size: 24px;
+            font-weight: bold;
+            color: $text-light;
+          }
+        }
+      }
+
+      .chartContainer {
+        margin-top: 24px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: $card-bg-light;
+        border: 1px solid $border-light;
+        height: 400px;
+
+        .recharts-cartesian-grid-horizontal,
+        .recharts-cartesian-grid-vertical {
+          line {
+            stroke: $border-light;
+          }
+        }
+
+        .recharts-tooltip-wrapper {
+          background-color: $card-bg-light;
+        }
+      }
+
+      .tableContainer {
+        margin-top: 24px;
+        overflow-x: auto;
+        border-radius: 8px;
+        background-color: $card-bg-light;
+        border: 1px solid $border-light;
+
+        .dataTable {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 14px;
+
+          th,
+          td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid $border-light;
+          }
+
+          th {
+            background-color: $metric-bg-light;
+            font-weight: 600;
+            color: $text-light;
+          }
+
+          tr {
+            &:nth-child(even) {
+              background-color: rgba($metric-bg-light, 0.5);
+            }
+
+            &:hover {
+              background-color: rgba($button-primary, 0.1);
+            }
+          }
+        }
+      }
+
+      .downloadSection {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .analyzeButton {
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        background-color: $button-primary;
+        color: $bg-light;
+        border: none;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          opacity: 0.9;
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(1px);
+        }
+      }
+
+      .csvPreview {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 8px;
+        background-color: $card-bg-light;
+        border: 1px solid $border-light;
+        max-height: 300px;
+        overflow-y: auto;
+        position: relative;
+
+        pre {
+          margin: 0;
+          font-size: 14px;
+          white-space: pre-wrap;
+          color: $text-light;
+        }
+
+        .closePreviewButton {
+          margin-top: 10px;
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          background-color: $button-primary;
+          color: $bg-light;
+          border: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+          }
+
+          &:active {
+            transform: translateY(1px);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsiveness
+@media (max-width: 768px) {
+  .chartAnalysis {
+    padding: 12px;
+
+    .dashboardCard {
+      .cardContent {
+        .inputSection {
+          flex-direction: column;
+
+          .numberInput,
+          .analyzeButton {
+            width: 100%;
+          }
+        }
+
+        .metricsGrid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .chartContainer,
+        .tableContainer {
+          min-height: 300px;
+          height: auto;
+          padding: 12px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chartAnalysis {
+    padding: 8px;
+
+    .dashboardCard {
+      .cardContent {
+        padding: 16px;
+
+        .inputSection {
+          flex-direction: column;
+
+          .numberInput,
+          .analyzeButton {
+            width: 100%;
+          }
+        }
+
+        .metricsGrid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .chartContainer,
+        .tableContainer {
+          min-height: 300px;
+          height: auto;
+          padding: 12px;
+          margin-bottom: 20px;
+        }
+
+        .downloadSection {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .csvPreview {
+          max-height: 200px;
+          padding: 12px;
+        }
+      }
+    }
+  }
+}
+
+.localCalcInfo {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: $color-primary;
+}
+
+.toggleChartButton {
+  margin: 16px 0;
+  padding: 8px 16px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #555;
+  }
+}

@@ -1,0 +1,225 @@
+@import "../../_variables.scss"; // import variables
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $header-bg-blur;
+  backdrop-filter: blur(8px);
+  color: $color-white;
+  padding: 16px 20px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoSection {
+  .logo {
+    font-weight: 600;
+    font-size: 22px;
+    color: $color-accent;
+    cursor: pointer;
+    background: linear-gradient(90deg, $color-accent, $color-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+  }
+}
+
+.mobileControls {
+  display: none; // Hidden by default, shown on mobile via media query
+  align-items: center;
+}
+
+.mobileMenuButton {
+  display: none; // Hidden by default, shown on mobile via media query
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 30px;
+  height: 24px;
+  position: relative;
+  z-index: 1002;
+  margin-left: 15px;
+
+  .hamburgerLine {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: $color-white;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 0;
+  }
+
+  .hamburgerLine:nth-child(1) {
+    top: 0;
+  }
+
+  .hamburgerLine:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .hamburgerLine:nth-child(3) {
+    bottom: 0;
+  }
+
+  &.open {
+    .hamburgerLine:nth-child(1) {
+      transform: rotate(45deg);
+      top: 10px;
+    }
+
+    .hamburgerLine:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburgerLine:nth-child(3) {
+      transform: rotate(-45deg);
+      bottom: 11px;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+
+  a {
+    color: $color-white;
+    font-weight: 500;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    padding: 6px 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, $color-primary, $color-accent);
+      left: 0;
+      bottom: 0;
+      transition: width 0.4s ease;
+    }
+
+    &:hover {
+      color: $color-primary;
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.explanationsWrapper {
+  position: relative;
+  z-index: 1001;
+
+  // Fix for the global styles
+  :global(.explanationsContainer) {
+    position: absolute !important;
+    top: 40px !important;
+    right: 0 !important;
+    transform: none !important;
+  }
+
+  :global(.toggleButton) {
+    position: static !important;
+    transform: none !important;
+  }
+}
+
+.headerSpacer {
+  height: 70px; // Match header height to prevent content from hiding behind it
+}
+
+// Responsive styles
+@media screen and (max-width: 768px) {
+  .header {
+    border-bottom: none; // Ensure no border appears on mobile
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .mobileControls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+
+  .mobileMenuButton {
+    display: block;
+  }
+
+  .navigation {
+    position: fixed;
+    top: 70px; // Match header height
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: $header-bg-blur;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    z-index: 1000;
+    border-top: none; // Ensure no border appears
+    pointer-events: none; // Initially disable interaction
+
+    &.mobileMenuOpen {
+      height: auto;
+      padding: 20px 0;
+      margin-top: -6px;
+      opacity: 1;
+      pointer-events: auto; // Enable interaction when open
+
+      a {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    a {
+      padding: 15px 20px;
+      font-size: 18px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      text-align: center;
+      width: 100%;
+
+      &::after {
+        bottom: 10px;
+      }
+    }
+  }
+
+  .explanationsWrapper {
+    position: static; // Ensure the position of the icon stays static
+    margin-right: 10px; // Add some space before hamburger
+  }
+
+  .headerSpacer {
+    height: 70px;
+  }
+}
