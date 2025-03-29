@@ -27,6 +27,40 @@
   line-height: 1.5;
 }
 
+.usageSection {
+  max-width: 700px;
+  margin: 32px auto 0;
+  margin-bottom: 20px;
+  padding: 24px;
+  border-radius: 10px;
+  color: $gray-700;
+  line-height: 1.6;
+}
+
+.subsectionTitle {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: $color-primary;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.numberedList {
+  list-style: decimal inside;
+  padding-left: 0;
+
+  li {
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: $gray-600;
+
+    strong {
+      color: $color-primary-dark;
+    }
+  }
+}
+
 .ThreeDVisContainer {
   width: 1100px;
   height: 600px;

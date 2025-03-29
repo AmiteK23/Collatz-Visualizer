@@ -104,6 +104,26 @@ export default function ThreeDVis() {
         properties: orange for Mersenne-like numbers (2^n-1), blue for 3 mod 4
         numbers.
       </p>
+      <div className={styles.usageSection}>
+        <h3 className={styles.subsectionTitle}>How to Use</h3>
+        <ol className={styles.numberedList}>
+          <li>
+            <strong>Set the Number Range:</strong> Enter the starting and ending
+            numbers to generate orbits for that range. Smaller ranges (e.g.,
+            3–101) work best for clear visualization.
+          </li>
+          <li>
+            <strong>Interact with the 3D Model:</strong> Click and drag to
+            rotate the view, scroll to zoom in/out, and right-click to pan
+            across the orbital patterns.
+          </li>
+          <li>
+            <strong>Observe Color Patterns:</strong> Pay attention to how
+            different colored paths (representing different types of numbers)
+            behave in the 3D space.
+          </li>
+        </ol>
+      </div>
 
       {isClient && (
         <>
