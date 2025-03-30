@@ -63,8 +63,8 @@ const About: React.FC = () => {
           this fascinating mathematical puzzle.
         </p>
         <p>
-          Techs used: React, Next, TypeScript, Three.js, Recharts, Scss and
-          Flask.
+          Techs used: React, Next, TypeScript, Three.js, Recharts, Scss, Python
+          and Flask.
         </p>
       </div>
 
@@ -356,7 +356,7 @@ const About: React.FC = () => {
                     <div className={styles.accordionInner}>
                       <p>
                         The Collatz conjecture has been verified for all
-                        starting numbers up to 2⁶⁸ (approximately 2.95 × 10^20),
+                        starting numbers up to 2⁶⁸ (approximately 2.95 × 10²⁰),
                         yet remains unproven in general.
                       </p>
                       <p>Key research areas include:</p>

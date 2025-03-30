@@ -10,9 +10,18 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
   useEffect(() => {
     if (fadeOut) {
-      setTimeout(() => setVisible(false), 500);
+      const timeout = setTimeout(() => setVisible(false), 550);
+      return () => clearTimeout(timeout);
     }
   }, [fadeOut]);
+
+  useEffect(() => {
+    // Lock scroll
+    if (visible) document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [visible]);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -57,8 +66,9 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
     const animate = () => {
       requestAnimationFrame(animate);
-      spiral.rotation.z += 0.002;
-      spiral.rotation.x += 0.001;
+      spiral.rotation.z += 0.005;
+      spiral.rotation.x += 0.002;
+      spiral.scale.setScalar(1 + Math.sin(Date.now() * 0.002) * 0.03); // pulse
       renderer.render(scene, camera);
     };
 
@@ -82,6 +92,8 @@ const LoadingScreen: React.FC<{ fadeOut: boolean }> = ({ fadeOut }) => {
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       className={`${styles.loadingWrapper} ${fadeOut ? styles.fadeOut : ""}`}
     >
       <div className={styles.loadingContainer} ref={mountRef}></div>

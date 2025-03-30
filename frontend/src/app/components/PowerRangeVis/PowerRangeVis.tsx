@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import {
   LineChart,
   Line,
@@ -27,10 +28,11 @@ const PowerRangeVis: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [chartGroups, setChartGroups] = useState<PathsGroupData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showDescription, setShowDescription] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [powerRange, setPowerRange] = useState<PowerRangeData>({
     minPower: 4,
-    maxPower: 9, // Allow visualization up to 2^9 (512)
+    maxPower: 9, // Allow visualization up to 2⁹ (512)
   });
   const [inputValues, setInputValues] = useState({
     minPower: "4",
@@ -177,18 +179,55 @@ const PowerRangeVis: React.FC = () => {
   }
 
   return (
-    <div className={styles.collatzVisWrapper} id="powersOfTwo">
-      <h2 className={styles.collatzVisTitle}>
-        Powers-of-2 Range Visualization
-      </h2>
-      <p className={styles.collatzVisDescription}>
-        This visualization shows the Collatz sequences for odd numbers using the
-        1.5n + 0.5 notation (equivalent to (3n+1)/2 for odd numbers), grouped by
-        powers of 2.
-        {useApi
-          ? " Currently using API data."
-          : " Currently using local calculations."}
-      </p>
+    <div className={styles.powerRangeVisWrapper} id="powersOfTwo">
+      <div className={styles.usageSection}>
+        <div
+          className={styles.usageHeader}
+          onClick={() => setShowDescription(!showDescription)}
+        >
+          <h2 className={styles.powerRangeVisTitle}>2ⁿ Range Visualizer</h2>
+          <button
+            className={`${styles.toggleButton} ${
+              showDescription ? styles.spin : ""
+            }`}
+            aria-label="Toggle the Description of the Powers-of-2 Range Visualization"
+          >
+            <div className={styles.iconWrapper}>
+              <FaChevronDown className={styles.icon} />
+            </div>
+          </button>
+        </div>
+
+        <div
+          className={`${styles.usageContent} ${
+            showDescription ? "" : styles.closed
+          }`}
+        >
+          <p>
+            This visualization shows the <strong>Collatz sequences</strong> for{" "}
+            <strong>odd numbers</strong> using the <code>1.5n + 0.5</code>{" "}
+            notation (equivalent to <code>(3n + 1) / 2</code>), grouped by
+            powers of 2.
+          </p>
+          <p>
+            It highlights how numbers behave across exponential intervals such
+            as <code>2ⁿ to 2ⁿ⁺¹</code>, making it easier to observe growth, step
+            count, and structural trends.
+          </p>
+          <ul>
+            <li>Track how many steps each number takes to reach 1</li>
+            <li>Visualize peaks and growth patterns</li>
+            <li>Compare across selected power-of-two ranges</li>
+          </ul>
+          <p>
+            <em>
+              {useApi
+                ? "Currently using API data for large-range performance."
+                : "Currently using local calculations for fast responsiveness."}
+            </em>
+          </p>
+        </div>
+      </div>
 
       <div className={styles.controls}>
         <label>
@@ -226,11 +265,10 @@ const PowerRangeVis: React.FC = () => {
           {useApi ? "Using API Data" : "Using Local Calculation"}
         </button>
         <div className={styles.helpText}>
-          Set ranges like 4-9 to see powers from 2^4 (16) to 2^9 (512).{" "}
+          Set ranges like 4-9 to see powers from 2⁴ (16) to 2⁹ (512). <br></br>
           <br></br>
-          <br></br>
-          Currently limited to a maximum power of 2^10 (1024) and a maximum
-          range span of 5 (e.g., 4-9, 5-10).
+          Currently limited to a maximum power of 2¹⁰ (1024) and a maximum range
+          span of 5 (e.g., 4-9, 5-10).
           <br></br>
           Performance optimizations planned to increase both limits in future
           updates.

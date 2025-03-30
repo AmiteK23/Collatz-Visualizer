@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
 import styles from "./Explanations.module.scss";
 
 export default function Explanations() {
@@ -21,11 +21,7 @@ export default function Explanations() {
         aria-label={isOpen ? "Close explanations" : "Open explanations"}
       >
         <div className={styles.iconWrapper}>
-          {isOpen ? (
-            <FaMinus className={styles.icon} />
-          ) : (
-            <FaPlus className={styles.icon} />
-          )}
+          <FaChevronDown className={styles.icon} />
         </div>
       </button>
 

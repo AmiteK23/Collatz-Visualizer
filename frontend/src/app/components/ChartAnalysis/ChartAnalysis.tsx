@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { FaChevronDown } from "react-icons/fa";
 import styles from "./ChartAnalysis.module.scss";
 
 const SingleCollatzAnalysis = dynamic(() => import("./SingleCollatzAnalysis"), {
@@ -32,8 +33,13 @@ const ChartAnalysis: React.FC = () => {
           onClick={() => setDescOpen(!descOpen)}
         >
           <h2 className={styles.chartAnalysisHeader}>Chart Analysis</h2>
-          <button className={styles.toggleButton}>
-            {descOpen ? "−" : "+"}
+          <button
+            className={`${styles.toggleButton} ${descOpen ? styles.spin : ""}`}
+            aria-label="Toggle the Description of the Chart Analysis tool"
+          >
+            <div className={styles.iconWrapper}>
+              <FaChevronDown className={styles.icon} />
+            </div>
           </button>
         </div>
 

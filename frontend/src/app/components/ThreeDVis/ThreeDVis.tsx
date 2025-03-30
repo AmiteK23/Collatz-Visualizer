@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import styles from "./ThreeDVis.module.scss";
 import { MulData } from "./types";
 import {
@@ -102,10 +103,12 @@ export default function ThreeDVis() {
         >
           <h2 className={styles.ThreeDVisTitle}>3D Visualizer</h2>
           <button
-            className={styles.toggleButton}
+            className={`${styles.toggleButton} ${showUsage ? styles.spin : ""}`}
             aria-label="Toggle the Description of the 3D tool"
           >
-            {showUsage ? "−" : "+"}
+            <div className={styles.iconWrapper}>
+              <FaChevronDown className={styles.icon} />
+            </div>
           </button>
         </div>
 

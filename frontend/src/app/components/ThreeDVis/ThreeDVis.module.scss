@@ -21,7 +21,7 @@
 .ThreeDVisDescription {
   max-width: 700px;
   margin: 8px auto;
-  font-size: 14px;
+  font-size: 16px;
   color: $gray-600;
   text-align: center;
   line-height: 1.5;
@@ -46,17 +46,42 @@
 }
 
 .toggleButton {
-  font-size: 40px;
-  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $color-primary;
   border: none;
-  color: $color-primary-dark;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s, box-shadow 0.5s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   position: relative;
-  top: -4px;
+
+  /* Spin animation for the icons */
+  &.spin {
+    transform: rotate(180deg);
+  }
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      color: white;
+      font-size: 12px;
+    }
+  }
 
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
+  }
+
+  &.spin:hover {
+    transform: rotate(180deg) scale(1.1);
   }
 }
 
