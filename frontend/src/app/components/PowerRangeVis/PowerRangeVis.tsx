@@ -179,7 +179,7 @@ const PowerRangeVis: React.FC = () => {
   return (
     <div className={styles.collatzVisWrapper} id="powersOfTwo">
       <h2 className={styles.collatzVisTitle}>
-        Powers-of-2 Range Visualization (1.5n + 0.5 notation)
+        Powers-of-2 Range Visualization
       </h2>
       <p className={styles.collatzVisDescription}>
         This visualization shows the Collatz sequences for odd numbers using the

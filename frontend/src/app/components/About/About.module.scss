@@ -217,9 +217,25 @@
 }
 
 .accordionContent {
-  padding: 16px;
   background-color: $color-white;
-  animation: slideDown 1s ease-in-out;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &.expanded {
+    max-height: 1000px; /* Large enough to contain the content */
+    opacity: 1;
+  }
+
+  &.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.accordionInner {
+  padding: 16px;
 
   p {
     margin-bottom: 16px;
@@ -237,17 +253,6 @@
     opacity: 0;
   }
   to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideDown {
-  from {
-    max-height: 0;
-    opacity: 0;
-  }
-  to {
-    max-height: 1000px;
     opacity: 1;
   }
 }

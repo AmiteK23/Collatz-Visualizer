@@ -71,8 +71,8 @@ const Header: React.FC = () => {
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.container}>
           <div className={styles.logoSection}>
-            <Link href="/">
-              <span className={styles.logo}>Collatz Visualizer</span>
+            <Link href="/" className={styles.logo}>
+              Collatz Visualizer
             </Link>
           </div>
 
@@ -115,7 +115,7 @@ const Header: React.FC = () => {
               Chart Analysis
             </Link>
             <Link href="/#powersOfTwo" onClick={handleSmoothScroll}>
-              2^n ~ 2^(n+d) Charts
+              2^n Charts
             </Link>
             <Link href="/#analysisScripts" onClick={handleSmoothScroll}>
               Analysis Scripts

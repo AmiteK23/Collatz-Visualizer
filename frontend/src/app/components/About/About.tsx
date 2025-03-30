@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./About.module.scss";
 
-const AboutPage: React.FC = () => {
+const About: React.FC = () => {
   // Add mounted state to prevent hydration issues
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -241,8 +241,14 @@ const AboutPage: React.FC = () => {
                     </span>
                   </button>
 
-                  {expandedAccordions.notation && (
-                    <div className={styles.accordionContent}>
+                  <div
+                    className={`${styles.accordionContent} ${
+                      expandedAccordions.notation
+                        ? styles.expanded
+                        : styles.collapsed
+                    }`}
+                  >
+                    <div className={styles.accordionInner}>
                       <p>
                         My visualizations use the 1.5n + 0.5 notation for odd
                         numbers, which is equivalent to the standard 3n+1
@@ -261,7 +267,7 @@ const AboutPage: React.FC = () => {
                         standard notation.
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 <div className={styles.accordionItem}>
@@ -276,8 +282,14 @@ const AboutPage: React.FC = () => {
                     </span>
                   </button>
 
-                  {expandedAccordions.behavior && (
-                    <div className={styles.accordionContent}>
+                  <div
+                    className={`${styles.accordionContent} ${
+                      expandedAccordions.behavior
+                        ? styles.expanded
+                        : styles.collapsed
+                    }`}
+                  >
+                    <div className={styles.accordionInner}>
                       <p>
                         Several formal structural properties arise in Collatz
                         sequences:
@@ -319,7 +331,7 @@ const AboutPage: React.FC = () => {
                         back to their unique ancestral lines.
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 <div className={styles.accordionItem}>
@@ -334,8 +346,14 @@ const AboutPage: React.FC = () => {
                     </span>
                   </button>
 
-                  {expandedAccordions.research && (
-                    <div className={styles.accordionContent}>
+                  <div
+                    className={`${styles.accordionContent} ${
+                      expandedAccordions.research
+                        ? styles.expanded
+                        : styles.collapsed
+                    }`}
+                  >
+                    <div className={styles.accordionInner}>
                       <p>
                         The Collatz conjecture has been verified for all
                         starting numbers up to 2^68 (approximately 2.95 ×
@@ -364,7 +382,7 @@ const AboutPage: React.FC = () => {
                         might contribute to a full proof.
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -531,4 +549,4 @@ const AboutPage: React.FC = () => {
   );
 };
 
-export default AboutPage;
+export default About;
