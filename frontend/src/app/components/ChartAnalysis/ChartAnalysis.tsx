@@ -16,6 +16,7 @@ const SixNCollatzAnalysis = dynamic(() => import("./SixNCollatzAnalysis"), {
 
 const ChartAnalysis: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
+  const [descOpen, setDescOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -24,16 +25,68 @@ const ChartAnalysis: React.FC = () => {
   if (!isClient) return null;
 
   return (
-    <div className={styles.chartAnalysis} id="chartAnalysis">
-      <h1 className={styles.chartAnalysisHeader}>Chart Analysis</h1>
-      <p className={styles.chartAnalysisDescription}>
-        Below is a tool that helps visualizing <br></br> a specific number or
-        range
-      </p>
+    <div className={styles.chartAnalysisWrapper}>
+      <div className={styles.chartAnalysis} id="chartAnalysis">
+        <div
+          className={styles.usageHeader}
+          onClick={() => setDescOpen(!descOpen)}
+        >
+          <h2 className={styles.chartAnalysisHeader}>Chart Analysis</h2>
+          <button className={styles.toggleButton}>
+            {descOpen ? "−" : "+"}
+          </button>
+        </div>
 
-      <SingleCollatzAnalysis />
-      <RangeCollatzAnalysis />
-      <SixNCollatzAnalysis />
+        <div
+          className={`${styles.usageContent} ${!descOpen ? styles.closed : ""}`}
+        >
+          <div className={styles.chartAnalysisDescription}>
+            <p>
+              This tool allows you to analyze and visualize the behavior of the{" "}
+              <strong>Collatz sequence</strong> using interactive charts.
+            </p>
+
+            <ul>
+              <li>
+                Enter a <strong>single number</strong> to view its full sequence
+                breakdown — steps, peak value, odd steps, closure point, and
+                growth rate.
+              </li>
+              <li>
+                Select a <strong>range</strong> of numbers to generate
+                comparative line or bar charts.
+              </li>
+              <li>
+                Use the <strong>6n ± 1 analysis</strong> to explore patterns in
+                special odd-number subsets.
+              </li>
+            </ul>
+
+            <p>Charts are interactive and exportable:</p>
+
+            <ul>
+              <li>
+                <strong>CSV:</strong> For spreadsheet/data tools
+              </li>
+              <li>
+                <strong>JSON:</strong> For APIs or coding use
+              </li>
+              <li>
+                <strong>SVG:</strong> For scalable chart graphics
+              </li>
+            </ul>
+
+            <p>
+              Small inputs are processed instantly in the browser. Large ranges
+              are computed on the server to maintain performance.
+            </p>
+          </div>
+        </div>
+
+        <SingleCollatzAnalysis />
+        <RangeCollatzAnalysis />
+        <SixNCollatzAnalysis />
+      </div>
     </div>
   );
 };
