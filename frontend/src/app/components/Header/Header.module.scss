@@ -28,8 +28,15 @@
     color: $color-accent;
     cursor: pointer;
     background: linear-gradient(90deg, $color-accent, $color-primary);
+
+    // Mobile: remove tap highlight, prevent text selection, and ensure no underline
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     text-decoration: none;
     letter-spacing: 0.5px;
   }
