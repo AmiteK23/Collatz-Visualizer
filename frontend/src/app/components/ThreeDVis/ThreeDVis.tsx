@@ -118,7 +118,7 @@ export default function ThreeDVis() {
             This 3D visualization shows orbital patterns of odd numbers through
             the Collatz process. Each orbit represents a number, with its path
             shaped by division counts and odd-step patterns. Colors indicate
-            special properties: orange for Mersenne-like numbers (2^n-1), blue
+            special properties: orange for Mersenne-like numbers (2ⁿ-1), blue
             for 3 mod 4 numbers.
           </p>
           <ol className={styles.numberedList}>
@@ -206,7 +206,7 @@ export default function ThreeDVis() {
                 className={styles.legendColor}
                 style={{ backgroundColor: "#ff5722" }}
               ></span>
-              <span>Mersenne-like numbers (2^n-1)</span>
+              <span>Mersenne-like numbers (2ⁿ-1)</span>
             </div>
             <div className={styles.legendItem}>
               <span

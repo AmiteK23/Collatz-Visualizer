@@ -27,7 +27,8 @@ const ChartAnalysis: React.FC = () => {
     <div className={styles.chartAnalysis} id="chartAnalysis">
       <h1 className={styles.chartAnalysisHeader}>Chart Analysis</h1>
       <p className={styles.chartAnalysisDescription}>
-        Below is a tool that helps visualizing a specific number or range
+        Below is a tool that helps visualizing <br></br> a specific number or
+        range
       </p>
 
       <SingleCollatzAnalysis />

@@ -115,7 +115,7 @@ const Header: React.FC = () => {
               Chart Analysis
             </Link>
             <Link href="/#powersOfTwo" onClick={handleSmoothScroll}>
-              2^n Charts
+              2ⁿ Range Charts
             </Link>
             <Link href="/#analysisScripts" onClick={handleSmoothScroll}>
               Analysis Scripts

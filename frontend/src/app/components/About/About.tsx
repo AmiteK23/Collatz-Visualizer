@@ -155,7 +155,7 @@ const About: React.FC = () => {
                 </p>
                 <p>Different colors indicate special number types:</p>
                 <ul className={styles.bulletList}>
-                  <li>Orange paths: Mersenne-like numbers (2^n-1)</li>
+                  <li>Orange paths: Mersenne-like numbers (2ⁿ-1)</li>
                   <li>Blue paths: Numbers ≡ 3 (mod 4)</li>
                   <li>Green paths: Numbers ≡ 1 (mod 4)</li>
                 </ul>
@@ -217,7 +217,7 @@ const About: React.FC = () => {
                 </p>
                 <p>
                   The Power Range tool helps identify patterns in how numbers
-                  behave when they start in specific ranges like 2^4 to 2^5
+                  behave when they start in specific ranges like 2⁴ to 2⁵
                   (16-31), which often exhibit similar trajectory patterns.
                 </p>
               </div>
@@ -296,7 +296,7 @@ const About: React.FC = () => {
                       </p>
                       <ul className={styles.bulletList}>
                         <li>
-                          Numbers of the form <code>2^n - 1</code> require
+                          Numbers of the form <code>2ⁿ - 1</code> require
                           exactly <code>n</code> odd steps before reaching an
                           even number
                         </li>
@@ -322,7 +322,7 @@ const About: React.FC = () => {
                           of odd steps from a <code>3 mod 4</code> number until
                           it transitions into a <code>1 mod 4</code> number, is
                           bounded by <code>⌊log₂(n)⌋</code> and attains equality
-                          for numbers of the form <code>2^n - 1</code>
+                          for numbers of the form <code>2ⁿ - 1</code>
                         </li>
                       </ul>
                       <p>
@@ -356,8 +356,8 @@ const About: React.FC = () => {
                     <div className={styles.accordionInner}>
                       <p>
                         The Collatz conjecture has been verified for all
-                        starting numbers up to 2^68 (approximately 2.95 ×
-                        10^20), yet remains unproven in general.
+                        starting numbers up to 2⁶⁸ (approximately 2.95 × 10^20),
+                        yet remains unproven in general.
                       </p>
                       <p>Key research areas include:</p>
                       <ul className={styles.bulletList}>
@@ -457,8 +457,8 @@ const About: React.FC = () => {
                   <li>
                     <strong>Set the Power Range:</strong> Enter the minimum and
                     maximum powers of 2 you wish to visualize. For example, a
-                    range of 4-7 will visualize numbers from 2^4 (16) through
-                    2^7-1 (127).
+                    range of 4-7 will visualize numbers from 2⁴ (16) through
+                    2⁷-1 (127).
                   </li>
                   {/* To be implemented: */}
                   {/* <li>
@@ -503,9 +503,9 @@ const About: React.FC = () => {
                     what works best.
                   </li>
                   <li>
-                    For larger number ranges (above 2^8), you may experience
-                    long loading times or server timeout errors while I improve
-                    optimization (currently available up to 2^10).
+                    For larger number ranges (above 2⁸), you may experience long
+                    loading times or server timeout errors while I improve
+                    optimization (currently available up to 2¹⁰).
                   </li>
                 </ul>
               </div>
