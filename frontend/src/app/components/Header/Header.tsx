@@ -71,8 +71,12 @@ const Header: React.FC = () => {
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
         <div className={styles.container}>
           <div className={styles.logoSection}>
-            <Link href="/" className={styles.logo}>
-              Collatz Visualizer
+            <Link
+              href="/"
+              className={styles.logoLink}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <span className={styles.logo}>Collatz Visualizer</span>
             </Link>
           </div>
 

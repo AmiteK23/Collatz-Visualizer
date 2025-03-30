@@ -22,17 +22,20 @@
 }
 
 .logoSection {
+  .logoLink {
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+  }
+
   .logo {
     font-weight: 600;
     font-size: 22px;
-    color: $color-accent;
     cursor: pointer;
     background: linear-gradient(90deg, $color-accent, $color-primary);
 
     // Mobile: remove tap highlight, prevent text selection, and ensure no underline
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
