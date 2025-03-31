@@ -212,13 +212,13 @@ export default function ThreeDVis() {
             </div>
             <div className={styles.legendItem}>
               <span
-                className={`${styles.legendColor} ${styles.legendColorMod3}`}
+                className={`${styles.legendColor} ${styles.legendColor3Mod4}`}
               ></span>
               <span>Numbers ≡ 3 (mod 4)</span>
             </div>
             <div className={styles.legendItem}>
               <span
-                className={`${styles.legendColor} ${styles.legendColorMod1}`}
+                className={`${styles.legendColor} ${styles.legendColor1Mod4}`}
               ></span>
               <span>Numbers ≡ 1 (mod 4)</span>
             </div>
