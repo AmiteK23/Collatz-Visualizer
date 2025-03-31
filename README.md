@@ -10,9 +10,9 @@ An interactive web app that visualizes the [Collatz Conjecture](https://en.wikip
 
 ## 🧠 About the Project
 
-This tool explores mathematical patterns hidden in the Collatz Conjecture, offering both **interactive data analysis** and **real-time 3D sequence rendering**.
+This tool explores the mathematical patterns hidden in the Collatz Conjecture, offering both **interactive data analysis** and **real-time 3D sequence rendering**. It serves as both a visualizer and an analytical tool to better understand this fascinating problem.
 
-It was built to showcase:
+Built to showcase:
 
 - ✨ Creative problem-solving
 - 📊 Full-stack web development
@@ -22,17 +22,41 @@ It was built to showcase:
 
 ## 🚀 Features
 
-### 📈 Chart Analysis
+### 📊 Chart Analysis
 
-- Analyze stats: **Max Steps**, **Max Value**, **Odd Steps**, **Total Sum**, **Growth Factor**
-- Toggle chart types: **Bar** / **Line** _(coming soon)_
-- Export data as **JSON** or **SVG**
+- **Analyze Stats**:
+  - Max Steps
+  - Max Value
+  - Odd Steps
+  - Total Sum
+  - Growth Factor
+- **Toggle Chart Types**:
+  - **Bar** / **Line** (coming soon)
+- **Export Data**:
+  - **JSON**
+  - **SVG**
 
 ### 🌌 3D Sequence Visualizer
 
-- Animated Collatz sequences in 3D
-- Smooth **Catmull-Rom** curve rendering
-- Toggle between 2D / 3D view modes
+- **Animated Collatz Sequences**: Visualize Collatz sequences in 3D with smooth animations.
+- **Smooth Catmull-Rom Curve Rendering**: The 3D visualizer uses Catmull-Rom splines to create fluid transitions between points.
+- **View Modes**: Toggle between **2D** and **3D** views for better scientific clarity and exploration of the sequences.
+
+### 🔢 2^n Range Visualizer
+
+- Visualizes Collatz sequences for numbers in the range \( 2^n \) to \( 2^{(n+1)} \).
+- **Catmull-Rom Splines**: Use smooth spline rendering for visual clarity.
+- Toggle between **2D** and **3D** views for easy comparison.
+
+### 🧑‍💻 Python Analysis Scripts
+
+- Includes Python scripts for in-depth Collatz sequence analysis:
+  - **Max Steps**
+  - **Max Value**
+  - **Odd Steps**
+  - **Total Sum**
+  - **Growth Factor**
+- These scripts provide a programmatic approach to extract statistical insights, aiding in further exploration of the Collatz conjecture.
 
 ### 🧮 Backend API
 
@@ -53,11 +77,10 @@ It was built to showcase:
 
 ## 🗂️ Project Structure
 
-collatz-visualizer/ ├── backend/ # Flask API (Collatz logic) │ ├── routes/ # API endpoints │ └── utils/ # Sequence + stats calculations ├── frontend/ # Next.js frontend │ ├── components/ # Charts, 3D renderer, UI │ ├── pages/ # Route files │ └── styles/ # SCSS modules ├── app.py # Flask entry point ├── requirements.txt # Python dependencies └── README.md
+collatz-visualizer/ ├── backend/ # Flask API (Collatz logic) │ ├── routes/ # API endpoints │ └── utils/ # Sequence + stats calculations ├── frontend/ # Next.js frontend │ ├── components/ # Charts, 3D renderer, UI │ ├── pages/ # Route files │ └── styles/ # SCSS modules ├── app.py # Flask entry point ├── requirements.txt # Python dependencies └── README.md # Project documentation
 
 yaml
 Copy
-Edit
 
 ---
 
