@@ -250,6 +250,18 @@
     height: 16px;
     border-radius: 50%;
   }
+
+  .legendColorMersenne {
+    background-color: $legend-color-mersenne;
+  }
+
+  .legendColorMod3 {
+    background-color: $legend-color-mod-3;
+  }
+
+  .legendColorMod1 {
+    background-color: $legend-color-mod1;
+  }
 }
 
 /* Responsive adjustments */

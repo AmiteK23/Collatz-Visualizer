@@ -206,22 +206,19 @@ export default function ThreeDVis() {
           <div className={styles.legend}>
             <div className={styles.legendItem}>
               <span
-                className={styles.legendColor}
-                style={{ backgroundColor: "#ff5722" }}
+                className={`${styles.legendColor} ${styles.legendColorMersenne}`}
               ></span>
               <span>Mersenne-like numbers (2ⁿ-1)</span>
             </div>
             <div className={styles.legendItem}>
               <span
-                className={styles.legendColor}
-                style={{ backgroundColor: "#3b82f6" }}
+                className={`${styles.legendColor} ${styles.legendColorMod3}`}
               ></span>
               <span>Numbers ≡ 3 (mod 4)</span>
             </div>
             <div className={styles.legendItem}>
               <span
-                className={styles.legendColor}
-                style={{ backgroundColor: "#10b981" }}
+                className={`${styles.legendColor} ${styles.legendColorMod1}`}
               ></span>
               <span>Numbers ≡ 1 (mod 4)</span>
             </div>

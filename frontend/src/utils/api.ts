@@ -1,5 +1,7 @@
 import axios from "axios";
-import { getApiBaseUrl } from "@/utils/getApiBaseUrl"; // adjust the path if needed
+import { getApiBaseUrl } from "@/utils/getApiBaseUrl";
+// Utility function that returns the base URL for backend API calls.
+// This centralizes the backend URL configuration so it can be easily updated in one place.
 
 const API_URL = getApiBaseUrl();
 
