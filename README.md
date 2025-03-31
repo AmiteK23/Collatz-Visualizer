@@ -1,49 +1,87 @@
 # 📊 Collatz Visualizer
-An interactive web tool that visualizes the Collatz Conjecture with scientific-style insights and 3D graphics.
+
+An interactive web app that visualizes the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) with scientific-style insights, dynamic stats, and beautiful 3D graphics.
+
 🔗 [Live Demo](https://collatz-visualizer.vercel.app)  
 📁 [Frontend Code](https://github.com/AmiteK23/Collatz-Visualizer/tree/main/frontend)  
 ⚙️ [Backend API](https://github.com/AmiteK23/Collatz-Visualizer/tree/main/backend)
+
 ---
-## 🧠 About
-This project explores mathematical patterns in the Collatz Conjecture using modern web technologies. It features both 2D data charts and a real-time 3D visualization of Collatz sequences, helping users understand the complexity behind seemingly simple math rules.
-Built as part of my personal portfolio to demonstrate full-stack skills, data visualization, and creative problem solving.
+
+## 🧠 About the Project
+
+This tool explores mathematical patterns hidden in the Collatz Conjecture, offering both **interactive data analysis** and **real-time 3D sequence rendering**.
+
+It was built to showcase:
+
+- ✨ Creative problem-solving
+- 📊 Full-stack web development
+- 🧮 Applied mathematics & data visualization
+
 ---
+
 ## 🚀 Features
-- 📈 **Chart Analysis**  
-  - Max Steps, Max Value, Odd Steps, Total Sum, and Growth Factor  
-  - Bar/Line chart toggle (coming soon)
-- 🌌 **3D Collatz Sequence Visualizer**  
-  - Renders sequences in 3D space using smooth Catmull-Rom curves  
-  - Toggle between 2D/3D views
-- 📤 **Export Tools**  
-  - Download data as JSON or export charts as SVG
-- 🧮 **Backend**  
-  - Python (Flask) API for calculating large ranges and stats efficiently
+
+### 📈 Chart Analysis
+
+- Analyze stats: **Max Steps**, **Max Value**, **Odd Steps**, **Total Sum**, **Growth Factor**
+- Toggle chart types: **Bar** / **Line** _(coming soon)_
+- Export data as **JSON** or **SVG**
+
+### 🌌 3D Sequence Visualizer
+
+- Animated Collatz sequences in 3D
+- Smooth **Catmull-Rom** curve rendering
+- Toggle between 2D / 3D view modes
+
+### 🧮 Backend API
+
+- Built with **Python + Flask**
+- Efficiently computes Collatz data over large ranges
+
 ---
-## 🛠️ Stack
-- **Frontend**: Next.js, React, SCSS, Chart.js, Three.js  
-- **Backend**: Python, Flask  
-- **Deployment**: Vercel (Frontend) + Render (Backend)
+
+## 🛠️ Tech Stack
+
+| Layer      | Tech Used                                |
+| ---------- | ---------------------------------------- |
+| Frontend   | Next.js, React, SCSS, Chart.js, Three.js |
+| Backend    | Python, Flask                            |
+| Deployment | Vercel (frontend), Render (backend)      |
+
 ---
-## 🗂️ Structure
-```
-collatz-visualizer/
-├── backend/              # Flask API logic (Collatz calculations)
-│   ├── routes/           # API endpoints
-│   └── utils/            # Math logic and helpers
-├── frontend/             # Next.js frontend with SCSS and visual components
-│   ├── components/       # React components (charts, 3D visualizer, UI)
-│   ├── pages/            # Next.js routes
-│   └── styles/           # SCSS styling
-├── app.py                # Entry point for backend server
-├── requirements.txt      # Python dependencies
-└── README.md
-```
+
+## 🗂️ Project Structure
+
+collatz-visualizer/ ├── backend/ # Flask API (Collatz logic) │ ├── routes/ # API endpoints │ └── utils/ # Sequence + stats calculations ├── frontend/ # Next.js frontend │ ├── components/ # Charts, 3D renderer, UI │ ├── pages/ # Route files │ └── styles/ # SCSS modules ├── app.py # Flask entry point ├── requirements.txt # Python dependencies └── README.md
+
+yaml
+Copy
+Edit
+
 ---
+
 ## 👨‍💻 Author
+
 **Amit Levi**  
 📫 [LinkedIn](https://www.linkedin.com/in/amit-levi-538558221) • [GitHub](https://github.com/AmiteK23)
+
 ---
+
+## 📝 License
+
+This project is open source under the [MIT License](LICENSE).  
+Feel free to use, fork, and build upon it — just drop a ⭐ if you find it useful!
+
+---
+
 ## 📌 Notes
-- This project is actively maintained and extended.
-- Designed for developers, recruiters, and math enthusiasts alike.
+
+- Actively maintained with new features coming soon
+- Great for devs, recruiters, students & math enthusiasts
+
+---
+
+## 🌟 Contributing
+
+Fork it, star it, or raise an issue — PRs are always welcome!
