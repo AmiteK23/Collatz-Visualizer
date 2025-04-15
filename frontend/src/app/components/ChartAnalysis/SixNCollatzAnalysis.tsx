@@ -226,7 +226,7 @@ const SixNCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      The number of values in the analyzed range.
+                      Total number of integers in the analyzed range.
                     </span>
                   </span>
                 </div>
@@ -269,8 +269,7 @@ const SixNCollatzAnalysis: React.FC = () => {
                         activeTooltip === "maxSteps" ? styles.mobileVisible : ""
                       }`}
                     >
-                      Highest number of steps needed to reach 1 and which number
-                      required it.
+                      Highest number of steps needed to reach 1.
                     </span>
                   </span>
                 </div>
@@ -317,8 +316,8 @@ const SixNCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      Highest count of (3n + 1) operations applied to odd
-                      numbers in any sequence.
+                      Highest number of (3n+1)/2 operations (applied to odd
+                      numbers).
                     </span>
                   </span>
                 </div>
@@ -367,7 +366,8 @@ const SixNCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      Longest streak of increasing values found in any sequence.
+                      Longest streak of consecutive increasing values
+                      (consecutive 3 mod 4 number) in any sequence in the range.
                     </span>
                   </span>
                 </div>

@@ -264,7 +264,7 @@ const RangeCollatzAnalysis: React.FC = () => {
                         activeTooltip === "avgSteps" ? styles.mobileVisible : ""
                       }`}
                     >
-                      Average number of operations needed to reach 1 across all
+                      Average number of steps needed to reach 1 across all
                       numbers in the range.
                     </span>
                   </span>
@@ -284,8 +284,7 @@ const RangeCollatzAnalysis: React.FC = () => {
                         activeTooltip === "maxSteps" ? styles.mobileVisible : ""
                       }`}
                     >
-                      Highest number of operations needed to reach 1 and which
-                      starting number produced it.
+                      Highest number of steps needed to reach 1
                     </span>
                   </span>
                 </div>
@@ -307,8 +306,8 @@ const RangeCollatzAnalysis: React.FC = () => {
                         activeTooltip === "maxValue" ? styles.mobileVisible : ""
                       }`}
                     >
-                      Highest number reached during any sequence in the range
-                      and which starting number produced it.
+                      Highest value reached by any number in the range during
+                      its sequence.
                     </span>
                   </span>
                 </div>
@@ -331,8 +330,8 @@ const RangeCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      Highest number of (3n+1)/2 operations applied to odd
-                      numbers and which starting number produced it.
+                      Highest number of (3n+1)/2 operations (applied to odd
+                      numbers).
                     </span>
                   </span>
                 </div>
@@ -356,8 +355,8 @@ const RangeCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      Largest sum of reciprocals (∑1/n) for all values in a
-                      sequence and which starting number produced it.
+                      Highest sum of reciprocals (∑1/n) for all numbers in a
+                      sequence.
                     </span>
                   </span>
                 </div>
@@ -381,8 +380,8 @@ const RangeCollatzAnalysis: React.FC = () => {
                           : ""
                       }`}
                     >
-                      Longest streak of consecutive increasing values in any
-                      sequence and which starting number produced it.
+                      Longest streak of consecutive increasing values
+                      (consecutive 3 mod 4 number) in any sequence in the range.
                     </span>
                   </span>
                 </div>

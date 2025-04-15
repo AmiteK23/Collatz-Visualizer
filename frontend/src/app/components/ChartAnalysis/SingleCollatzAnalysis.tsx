@@ -288,7 +288,8 @@ const toggleTooltip = (id: string) => {
                           : ""
                       }`}
                     >
-                      Longest streak of increasing values in the sequence.
+                      Longest streak of consecutive increasing values
+                      (consecutive 3 mod 4 number) in the sequence.
                     </span>
                   </span>
                 </div>
