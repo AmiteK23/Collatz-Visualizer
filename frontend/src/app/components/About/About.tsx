@@ -38,7 +38,7 @@ const About: React.FC = () => {
   return (
     <div className={styles.aboutContainer} id="about">
       <h1 className={styles.aboutTitle}>
-        About the Collatz Conjecture Visualization Tool
+        Collatz Conjecture Visualization Tool
       </h1>
 
       <div className={styles.devNotice}>
