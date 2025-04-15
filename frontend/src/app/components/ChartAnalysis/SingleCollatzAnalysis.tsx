@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   LineChart,
   BarChart,
@@ -29,8 +29,51 @@ const SingleCollatzAnalysis: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [calculatedLocally, setCalculatedLocally] = useState<boolean>(false);
   const [chartType, setChartType] = useState<"bar" | "line">("line");
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check using media query for touchscreens
+      const isTouchDevice = window.matchMedia(
+        "(hover: none) and (pointer: coarse)"
+      ).matches;
+      setIsMobile(isTouchDevice);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  // Handle clicking outside to close tooltip on mobile only
+  useEffect(() => {
+    if (!isMobile) return; // Only add listener on mobile
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(`.${styles.tooltipIcon}`)) {
+        setActiveTooltip(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobile]);
+
+  // Toggle tooltip function - only used on mobile
+  const toggleTooltip = (id: string) => {
+    if (!isMobile) return; // No-op on desktop - hover CSS handles it
+    setActiveTooltip(activeTooltip === id ? null : id);
+  };
 
   const handleSingleFetch = useCallback(async () => {
     if (
@@ -134,9 +177,16 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Steps
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("steps")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "steps" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Total number of operations until the sequence reaches 1.
                     </span>
                   </span>
@@ -149,9 +199,16 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Odd Steps
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("oddSteps")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "oddSteps" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Number of (3n + 1) / 2 operations applied to odd numbers.
                     </span>
                   </span>
@@ -164,9 +221,16 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Value
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxValue")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxValue" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Highest number reached during the sequence.
                     </span>
                   </span>
@@ -177,9 +241,18 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Growth Rate
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("growthRate")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "growthRate"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       How much the sequence grows relative to the starting
                       number.
                     </span>
@@ -196,9 +269,18 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Largest Growth
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("largestGrowth")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "largestGrowth"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Longest streak of increasing values in the sequence.
                     </span>
                   </span>
@@ -211,9 +293,18 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Harmonic Sum
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("harmonicSum")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "harmonicSum"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Sum of reciprocals (∑1/n) for all numbers in the sequence.
                     </span>
                   </span>
@@ -224,9 +315,18 @@ const SingleCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Closure Point
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("closurePoint")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "closurePoint"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       First power of 2 or special number the sequence settles
                       into.
                     </span>

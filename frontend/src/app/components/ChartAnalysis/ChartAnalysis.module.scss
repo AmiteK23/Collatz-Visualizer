@@ -374,7 +374,9 @@
   }
 }
 
-/* Tooltip styles */
+/* ============================
+   Tooltip styles
+   ============================ */
 .tooltipIcon {
   position: relative;
   display: inline-flex;
@@ -382,7 +384,7 @@
   justify-content: center;
   margin-left: 8px;
   color: $color-primary;
-  cursor: help;
+  cursor: pointer; /* Changed from help to pointer for both mobile and desktop */
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -395,13 +397,7 @@
     vertical-align: middle;
   }
 
-  /* This media query targets devices that support true hover interactions (like desktop computers with mice)
-     - (hover: hover): Detects devices where hovering doesn't activate elements (like desktops/laptops)
-     - (pointer: fine): Detects devices with precise pointing capability (mouse/trackpad)
-     
-     This ensures hover effects only apply on devices that actually support hovering,
-     while touch devices (mobile/tablets) will use touch-specific behaviors instead */
-
+  /* Desktop hover behavior */
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       background-color: rgba($color-primary, 0.2);
@@ -410,7 +406,7 @@
       .tooltipText {
         opacity: 1;
         visibility: visible;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
       }
     }
   }
@@ -433,6 +429,7 @@
   line-height: 1.5;
   pointer-events: none;
   bottom: 28px;
+  left: 50%;
   transform: translateX(-50%) translateY(5px);
   width: max-content;
   max-width: 220px;
@@ -448,6 +445,14 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 6px solid rgba(40, 44, 52, 0.95);
+  }
+
+  /* Class for JS-controlled tooltip visibility */
+  &.mobileVisible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
   }
 }
 
@@ -472,7 +477,9 @@
   }
 }
 
-/* Responsive styles */
+/* ============================
+   Responsive styles
+   ============================ */
 @media (max-width: 768px) {
   .chartAnalysis {
     padding: 12px;
@@ -512,20 +519,13 @@
     }
   }
 
+  /* Mobile-specific tooltip styles */
   .tooltipIcon {
-    /* Make touch target larger */
     width: 24px;
     height: 24px;
 
     svg {
       font-size: 16px;
-    }
-
-    /* Activate tooltip on mobile with touch */
-    &:active .tooltipText,
-    &:focus .tooltipText {
-      opacity: 1;
-      visibility: visible;
     }
   }
 
@@ -538,12 +538,16 @@
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 300px;
-    z-index: 10000;
-    padding: 12px 16px;
+    padding: 16px;
 
     /* No arrow on mobile */
     &:after {
       display: none;
+    }
+
+    /* Override transform for mobile visible class */
+    &.mobileVisible {
+      transform: translate(-50%, -50%) !important;
     }
   }
 }

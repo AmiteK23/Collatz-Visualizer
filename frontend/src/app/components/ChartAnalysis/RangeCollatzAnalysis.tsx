@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+} from "react";
 import {
   BarChart,
   LineChart,
@@ -31,8 +37,51 @@ const RangeCollatzAnalysis: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [calculatedLocally, setCalculatedLocally] = useState<boolean>(false);
   const [chartType, setChartType] = useState<"bar" | "line">("bar");
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check using media query for touchscreens
+      const isTouchDevice = window.matchMedia(
+        "(hover: none) and (pointer: coarse)"
+      ).matches;
+      setIsMobile(isTouchDevice);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  // Handle clicking outside to close tooltip on mobile only
+  useEffect(() => {
+    if (!isMobile) return; // Only add listener on mobile
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(`.${styles.tooltipIcon}`)) {
+        setActiveTooltip(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobile]);
+
+  // Toggle tooltip function - only used on mobile
+  const toggleTooltip = (id: string) => {
+    if (!isMobile) return; // No-op on desktop - hover CSS handles it
+    setActiveTooltip(activeTooltip === id ? null : id);
+  };
 
   const handleRangeFetch = useCallback(async () => {
     if (
@@ -177,9 +226,18 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Total Numbers
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("totalNumbers")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "totalNumbers"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Total number of integers analyzed in the selected range.
                     </span>
                   </span>
@@ -189,9 +247,16 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Avg Steps
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("avgSteps")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "avgSteps" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Average number of operations needed to reach 1 across all
                       numbers in the range.
                     </span>
@@ -202,9 +267,16 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Steps (at)
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxSteps")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxSteps" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Highest number of operations needed to reach 1 and which
                       starting number produced it.
                     </span>
@@ -218,9 +290,16 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Value
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxValue")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxValue" ? styles.mobileVisible : ""
+                      }`}
+                    >
                       Highest number reached during any sequence in the range
                       and which starting number produced it.
                     </span>
@@ -233,9 +312,18 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Odd Steps
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxOddSteps")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxOddSteps"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Highest number of (3n+1)/2 operations applied to odd
                       numbers and which starting number produced it.
                     </span>
@@ -249,9 +337,18 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Harmonic Sum
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxHarmonicSum")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxHarmonicSum"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Largest sum of reciprocals (∑1/n) for all values in a
                       sequence and which starting number produced it.
                     </span>
@@ -265,9 +362,18 @@ const RangeCollatzAnalysis: React.FC = () => {
               <div className={styles.metricCard}>
                 <div className={styles.metricLabel}>
                   Max Growth
-                  <span className={styles.tooltipIcon}>
+                  <span
+                    className={styles.tooltipIcon}
+                    onClick={() => toggleTooltip("maxGrowth")}
+                  >
                     <FaQuestionCircle />
-                    <span className={styles.tooltipText}>
+                    <span
+                      className={`${styles.tooltipText} ${
+                        activeTooltip === "maxGrowth"
+                          ? styles.mobileVisible
+                          : ""
+                      }`}
+                    >
                       Longest streak of consecutive increasing values in any
                       sequence and which starting number produced it.
                     </span>
