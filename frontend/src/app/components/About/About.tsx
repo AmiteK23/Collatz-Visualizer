@@ -57,14 +57,21 @@ const About: React.FC = () => {
 
       <div className={styles.introPanel}>
         <p>
-          This interactive tool visualizes the Collatz conjecture, one of the
-          most famous unsolved problems in mathematics. My visualizations help
-          you explore patterns in the Collatz sequences and gain intuition about
-          this fascinating mathematical puzzle.
+          This interactive web app brings the Collatz Conjecture to life — a
+          deceptively simple yet unsolved problem in mathematics. Starting from
+          any positive integer, the sequence follows a simple rule: if the
+          number is even, divide it by 2; if odd, apply (3n + 1) / 2. Repeat
+          until you reach 1.
         </p>
         <p>
-          Techs used: React, Next, TypeScript, Three.js, Recharts, Scss, Python
-          and Flask.
+          With this tool, you can explore how different numbers behave under
+          this process, analyze patterns in steps, growth, and structure, and
+          visualize the journey of numbers through 2D charts and 3D Orbit
+          Visualization.
+        </p>
+        <p>
+          <strong>Built with:</strong> React, Next.js, TypeScript, Three.js,
+          Recharts, SCSS, Python and Flask.
         </p>
       </div>
 

@@ -21,6 +21,7 @@ import {
   CLIENT_CALCULATION_THRESHOLD,
 } from "./collatzUtils";
 import styles from "./ChartAnalysis.module.scss";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const SixNCollatzAnalysis: React.FC = () => {
   const [sixNStart, setSixNStart] = useState<string | number>("");
@@ -161,47 +162,108 @@ const SixNCollatzAnalysis: React.FC = () => {
 
             <div className={styles.metricsGrid}>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Total Numbers</div>
+                <div className={styles.metricLabel}>
+                  Total Numbers
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      The number of values in the analyzed range.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.total_numbers}
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Avg Steps</div>
+                <div className={styles.metricLabel}>
+                  Avg Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Average number of steps needed to reach 1 across all
+                      numbers in the range.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.avg_iterations.toFixed(2)}
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Steps (at)</div>
+                <div className={styles.metricLabel}>
+                  Max Steps (at)
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest number of steps needed to reach 1 and which number
+                      required it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.max_iterations} (at{" "}
                   {sixNData.stats.max_iterations_number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Value</div>
+                <div className={styles.metricLabel}>
+                  Max Value
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest value reached by any number in the range during
+                      its sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.max_value} (at{" "}
                   {sixNData.stats.max_value_number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Odd Steps</div>
+                <div className={styles.metricLabel}>
+                  Max Odd Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest count of (3n + 1) operations applied to odd
+                      numbers in any sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.max_shortcut} (at{" "}
                   {sixNData.stats.max_shortcut_number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Sum</div>
+                <div className={styles.metricLabel}>
+                  Max Harmonic Sum
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest sum of reciprocals (∑1/n) for all numbers in a
+                      sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.max_sum.toFixed(2)} (at{" "}
                   {sixNData.stats.max_sum_number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Growth</div>
+                <div className={styles.metricLabel}>
+                  Max Growth
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Longest streak of increasing values found in any sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {sixNData.stats.max_grow_seq} (at{" "}
                   {sixNData.stats.max_grow_seq_number})

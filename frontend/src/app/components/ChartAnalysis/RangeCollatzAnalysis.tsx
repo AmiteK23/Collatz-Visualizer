@@ -21,6 +21,7 @@ import {
   CLIENT_CALCULATION_THRESHOLD,
 } from "./collatzUtils";
 import styles from "./ChartAnalysis.module.scss";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const RangeCollatzAnalysis: React.FC = () => {
   const [rangeStart, setRangeStart] = useState<string | number>("");
@@ -174,42 +175,104 @@ const RangeCollatzAnalysis: React.FC = () => {
 
             <div className={styles.metricsGrid}>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Total Numbers</div>
+                <div className={styles.metricLabel}>
+                  Total Numbers
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Total number of integers analyzed in the selected range.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>{totalNumbers}</div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Avg Steps</div>
+                <div className={styles.metricLabel}>
+                  Avg Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Average number of operations needed to reach 1 across all
+                      numbers in the range.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>{avgSteps}</div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Steps (at)</div>
+                <div className={styles.metricLabel}>
+                  Max Steps (at)
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest number of operations needed to reach 1 and which
+                      starting number produced it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {rangeData.max_iterations.iterations} (at{" "}
                   {rangeData.max_iterations.number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Value</div>
+                <div className={styles.metricLabel}>
+                  Max Value
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest number reached during any sequence in the range
+                      and which starting number produced it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {rangeData.max_value.value} (at {rangeData.max_value.number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Odd Steps</div>
+                <div className={styles.metricLabel}>
+                  Max Odd Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest number of (3n+1)/2 operations applied to odd
+                      numbers and which starting number produced it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {rangeData.max_shortcut.count} (at{" "}
                   {rangeData.max_shortcut.number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Sum</div>
+                <div className={styles.metricLabel}>
+                  Max Harmonic Sum
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Largest sum of reciprocals (∑1/n) for all values in a
+                      sequence and which starting number produced it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {rangeData.max_sum_values.sum.toFixed(2)} (at{" "}
                   {rangeData.max_sum_values.number})
                 </div>
               </div>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Growth</div>
+                <div className={styles.metricLabel}>
+                  Max Growth
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Longest streak of consecutive increasing values in any
+                      sequence and which starting number produced it.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {rangeData.max_grow_seq.value} (at{" "}
                   {rangeData.max_grow_seq.number})

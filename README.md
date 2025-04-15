@@ -1,5 +1,10 @@
 # 📊 Collatz Visualizer
 
+![MIT License](https://img.shields.io/badge/license-MIT-blue)
+![Built with Next.js](https://img.shields.io/badge/Next.js-frontend-blue)
+![Python Flask](https://img.shields.io/badge/Flask-backend-yellow)
+![Three.js](https://img.shields.io/badge/Three.js-3D-green)
+
 An interactive web app that visualizes the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) with scientific-style insights, dynamic stats, and beautiful 3D graphics.
 
 🔗 [Live Demo](https://collatz-visualizer.vercel.app)  
@@ -12,11 +17,15 @@ An interactive web app that visualizes the [Collatz Conjecture](https://en.wikip
 
 This tool explores the mathematical patterns hidden in the Collatz Conjecture, offering both **interactive data analysis** and **real-time 3D sequence rendering**. It serves as both a visualizer and an analytical tool to better understand this fascinating problem.
 
-Built to showcase:
+## 🧩 Project Goals
 
-- ✨ Creative problem-solving
-- 📊 Full-stack web development
-- 🧮 Applied mathematics & data visualization
+This project aims to:
+
+🔍 Investigate the Collatz Conjecture through computational methods and visual modeling, offering new ways to interpret and explore its structure.
+
+🧱 Develop a scalable, modular web application using modern full-stack technologies (Next.js, Flask), with a focus on performance and data integrity.
+
+📈 Present mathematical patterns visually, combining algorithmic logic with real-time 3D rendering and interactive charts to support both educational and analytical use cases.
 
 ---
 
@@ -28,10 +37,10 @@ Built to showcase:
   - Max Steps
   - Max Value
   - Odd Steps
-  - Total Sum
+  - Harmonic Sum
   - Growth Factor
 - **Toggle Chart Types**:
-  - **Bar** / **Line** (coming soon)
+  - **Bar** / **Line**
 - **Export Data**:
   - **JSON**
   - **SVG**
@@ -39,14 +48,11 @@ Built to showcase:
 ### 🌌 3D Sequence Visualizer
 
 - **Animated Collatz Sequences**: Visualize Collatz sequences in 3D with smooth animations.
-- **Smooth Catmull-Rom Curve Rendering**: The 3D visualizer uses Catmull-Rom splines to create fluid transitions between points.
-- **View Modes**: Toggle between **2D** and **3D** views for better scientific clarity and exploration of the sequences.
+- **Smooth Curve Rendering with Catmull-Rom Splines**: The 3D visualizer employs THREE.CatmullRomCurve3 from Three.js to interpolate between sequence points, resulting in smooth and continuous curves that enhance the visual representation of the Collatz sequences.
 
 ### 🔢 2^n Range Visualizer
 
 - Visualizes Collatz sequences for numbers in the range \( 2^n \) to \( 2^{(n+1)} \).
-- **Catmull-Rom Splines**: Use smooth spline rendering for visual clarity.
-- Toggle between **2D** and **3D** views for easy comparison.
 
 ### 🧑‍💻 Python Analysis Scripts
 
@@ -77,10 +83,47 @@ Built to showcase:
 
 ## 🗂️ Project Structure
 
-collatz-visualizer/ ├── backend/ # Flask API (Collatz logic) │ ├── routes/ # API endpoints │ └── utils/ # Sequence + stats calculations ├── frontend/ # Next.js frontend │ ├── components/ # Charts, 3D renderer, UI │ ├── pages/ # Route files │ └── styles/ # SCSS modules ├── app.py # Flask entry point ├── requirements.txt # Python dependencies └── README.md # Project documentation
-
-yaml
-Copy
+<details> <summary><strong>📦 Root</strong> — Project entry point</summary>
+collatz-visualizer/
+├── backend/                  # Flask API
+├── frontend/                 # Next.js App (App Router)
+├── requirements.txt          # Python dependencies
+├── .env.local                # Local environment variables (not committed)
+├── .gitignore                # Git ignored files
+└── README.md                 # Project documentation
+</details>
+<details> <summary><strong>🧠 Backend</strong> — Python + Flask API</summary>
+backend/
+├── __init__.py               # Flask app factory
+├── routes/                  # API route handlers
+│   └── collatz.py            # Endpoint logic for sequence/statistics
+└── utils/                   # Sequence computation logic
+    ├── collatz.py            # Core Collatz logic
+    └── stats.py              # Statistical analysis functions
+</details>
+<details> <summary><strong>🎨 Frontend</strong> — Next.js + App Router</summary>
+frontend/
+├── public/                   # Static assets (SVGs, favicon, etc.)
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── ...
+├── src/
+│   ├── app/                  # App Router entry
+│   │   ├── layout.tsx        # Root layout
+│   │   ├── page.tsx          # Landing page
+│   │   └── page.module.css   # Styling for landing page
+│   ├── components/           # React components (each with SCSS Modules)
+│   │   ├── ChartAnalysis/
+│   │   ├── ThreeDVis/
+│   │   ├── PowerRangeVis/
+│   │   ├── LoadingScreen/
+│   │   ├── Footer/
+│   │   └── Explanations/
+│   ├── utils/                # Frontend utilities (CSV, JSON, math helpers)
+│   ├── globals.scss          # Global SCSS styles
+│   └── _variables.scss       # SCSS variables
+</details>
 
 ---
 

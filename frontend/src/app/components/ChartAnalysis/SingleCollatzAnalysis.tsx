@@ -20,6 +20,7 @@ import {
   CLIENT_CALCULATION_THRESHOLD,
 } from "./collatzUtils";
 import styles from "./ChartAnalysis.module.scss";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const SingleCollatzAnalysis: React.FC = () => {
   const [inputNumber, setInputNumber] = useState<string | number>("15");
@@ -131,23 +132,59 @@ const SingleCollatzAnalysis: React.FC = () => {
 
             <div className={styles.metricsGrid}>
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Steps</div>
+                <div className={styles.metricLabel}>
+                  Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Total number of operations until the sequence reaches 1.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {singleData.iterations}
                 </div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Odd Steps</div>
+                <div className={styles.metricLabel}>
+                  Odd Steps
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Number of (3n + 1) / 2 operations applied to odd numbers.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {singleData.shortcut_count}
                 </div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Max Value</div>
+                <div className={styles.metricLabel}>
+                  Max Value
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Highest number reached during the sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>{singleData.max_value}</div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Growth Rate</div>
+                <div className={styles.metricLabel}>
+                  Growth Rate
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      How much the sequence grows relative to the starting
+                      number.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {((singleData.max_value / singleData.number) * 100).toFixed(
                     2
@@ -155,18 +192,46 @@ const SingleCollatzAnalysis: React.FC = () => {
                   %
                 </div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Largest Growth</div>
+                <div className={styles.metricLabel}>
+                  Largest Growth
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Longest streak of increasing values in the sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {singleData.largest_grow_seq}
                 </div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Sum</div>
+                <div className={styles.metricLabel}>
+                  Harmonic Sum
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      Sum of reciprocals (∑1/n) for all numbers in the sequence.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>{sequenceSum}</div>
               </div>
+
               <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>Closure Point</div>
+                <div className={styles.metricLabel}>
+                  Closure Point
+                  <span className={styles.tooltipIcon}>
+                    <FaQuestionCircle />
+                    <span className={styles.tooltipText}>
+                      First power of 2 or special number the sequence settles
+                      into.
+                    </span>
+                  </span>
+                </div>
                 <div className={styles.metricValue}>
                   {singleData.closure_point || "N/A"}
                 </div>

@@ -175,8 +175,11 @@ export default function Explanations() {
                   increasing streak.
                 </li>
                 <li>
-                  <strong>Sum:</strong> Sum of all values in the sequence.
+                  <strong>Harmonic Sum:</strong> The sum of the reciprocals
+                  (∑ 1/n) of all values in the Collatz sequence for the selected
+                  number.
                 </li>
+
                 <li>
                   <strong>Closure Point:</strong> First power of 2 or
                   direct-to-power number reached.
@@ -189,6 +192,7 @@ export default function Explanations() {
                   <strong>Export Options:</strong> Download as CSV, JSON, or
                   SVG.
                 </li>
+                <br></br>
               </ul>
 
               <p>
@@ -219,9 +223,10 @@ export default function Explanations() {
                   operations and its source number.
                 </li>
                 <li>
-                  <strong>Max Sum:</strong> Largest sequence total and its
-                  source number.
+                  <strong>Max Harmonic Sum:</strong> Largest value of ∑(1/n)
+                  across all sequences and its source number.
                 </li>
+
                 <li>
                   <strong>Max Growth:</strong> Biggest growth streak and its
                   source number.
@@ -234,6 +239,7 @@ export default function Explanations() {
                   <strong>Export Options:</strong> Download as CSV, JSON, or SVG
                   with preview capability.
                 </li>
+                <br></br>
               </ul>
 
               <p>
@@ -260,6 +266,7 @@ export default function Explanations() {
                   <strong>Export Options:</strong> Same as Range Analysis for
                   data portability.
                 </li>
+                <br></br>
               </ul>
 
               <p>
@@ -278,6 +285,7 @@ export default function Explanations() {
                   <strong>Visualization:</strong> Toggle between bar and line
                   charts for different visual perspectives.
                 </li>
+                <br></br>
               </ul>
 
               <p>

@@ -31,7 +31,6 @@
     align-items: center;
     cursor: pointer;
     margin: 0 auto 12px auto;
-    margin-bottom: 12px;
     padding: 0 4px;
     max-width: 700px;
   }
@@ -375,7 +374,105 @@
   }
 }
 
-// Responsiveness
+/* Tooltip styles */
+.tooltipIcon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  color: $color-primary;
+  cursor: help;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgba($color-primary, 0.1);
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+
+  svg {
+    font-size: 16px;
+    vertical-align: middle;
+  }
+
+  /* This media query targets devices that support true hover interactions (like desktop computers with mice)
+     - (hover: hover): Detects devices where hovering doesn't activate elements (like desktops/laptops)
+     - (pointer: fine): Detects devices with precise pointing capability (mouse/trackpad)
+     
+     This ensures hover effects only apply on devices that actually support hovering,
+     while touch devices (mobile/tablets) will use touch-specific behaviors instead */
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: rgba($color-primary, 0.2);
+      transform: scale(1.1);
+
+      .tooltipText {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.tooltipText {
+  position: absolute;
+  background-color: rgba(40, 44, 52, 0.95);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: normal;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  white-space: normal;
+  line-height: 1.5;
+  pointer-events: none;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(5px);
+  width: max-content;
+  max-width: 220px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(40, 44, 52, 0.95);
+  }
+}
+
+/* Additional utility classes */
+.localCalcInfo {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: $color-primary;
+}
+
+.toggleChartButton {
+  margin: 16px 0;
+  padding: 8px 16px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #555;
+  }
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
   .chartAnalysis {
     padding: 12px;
@@ -383,6 +480,7 @@
     .chartAnalysisDescription {
       font-size: 16px;
       padding: 0 16px;
+
       br {
         display: none;
       }
@@ -411,6 +509,41 @@
           margin-bottom: 20px;
         }
       }
+    }
+  }
+
+  .tooltipIcon {
+    /* Make touch target larger */
+    width: 24px;
+    height: 24px;
+
+    svg {
+      font-size: 16px;
+    }
+
+    /* Activate tooltip on mobile with touch */
+    &:active .tooltipText,
+    &:focus .tooltipText {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .tooltipText {
+    /* Center in screen for mobile */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 300px;
+    z-index: 10000;
+    padding: 12px 16px;
+
+    /* No arrow on mobile */
+    &:after {
+      display: none;
     }
   }
 }
@@ -456,25 +589,5 @@
         }
       }
     }
-  }
-}
-
-.localCalcInfo {
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: $color-primary;
-}
-
-.toggleChartButton {
-  margin: 16px 0;
-  padding: 8px 16px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background: #555;
   }
 }
