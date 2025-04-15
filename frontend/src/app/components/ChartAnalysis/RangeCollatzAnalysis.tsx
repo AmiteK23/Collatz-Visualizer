@@ -80,7 +80,14 @@ const RangeCollatzAnalysis: React.FC = () => {
   // Toggle tooltip function - only used on mobile
   const toggleTooltip = (id: string) => {
     if (!isMobile) return; // No-op on desktop - hover CSS handles it
-    setActiveTooltip(activeTooltip === id ? null : id);
+
+    // If the same tooltip is clicked again, close it
+    if (activeTooltip === id) {
+      setActiveTooltip(null);
+    } else {
+      // Otherwise, open the new tooltip
+      setActiveTooltip(id);
+    }
   };
 
   const handleRangeFetch = useCallback(async () => {
