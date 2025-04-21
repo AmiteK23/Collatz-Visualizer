@@ -1,13 +1,12 @@
 //AmiteK23
 // Global styles for the Collatz frontend
-@import "./variables"; // Import variables if needed
-//Test
+@import "./variables";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Arial", sans-serif;
+  font-family: var(--font-inter), sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
