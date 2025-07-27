@@ -172,63 +172,32 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }, 10000); // 10 second timeout
 
-    // Add a more robust delay and retry mechanism to ensure DOM is ready
-    const attemptInitialization = (attempts = 0) => {
-      if (!mountRef.current) {
-        if (attempts < 10) {
-          console.log(`Container not ready, retrying in 200ms (attempt ${attempts + 1}/10)`);
-          setTimeout(() => attemptInitialization(attempts + 1), 200);
-        } else {
-          console.error('Container never became available after 10 attempts');
-          if (isMountedRef.current) {
-            setHasError(true);
-            setErrorMessage("Failed to initialize 3D visualization: Container not available");
-            setIsLoading(false);
-          }
+    // Simplified initialization - just try to initialize after a short delay
+    const attemptInitialization = () => {
+      // Force container to have dimensions if it doesn't
+      if (mountRef.current) {
+        // Set explicit dimensions if they're missing
+        if (!mountRef.current.style.width) {
+          mountRef.current.style.width = '100%';
         }
-        return;
+        if (!mountRef.current.style.height) {
+          mountRef.current.style.height = '600px';
+        }
+        
+        console.log('Container ready, forcing dimensions and initializing...');
+        initializeThreeJS();
+      } else {
+        console.error('Container still not available');
+        if (isMountedRef.current) {
+          setHasError(true);
+          setErrorMessage("Failed to initialize 3D visualization: Container not available");
+          setIsLoading(false);
+        }
       }
-      
-      console.log('Container is ready, checking dimensions...');
-      console.log('Container dimensions:', {
-        width: mountRef.current.clientWidth,
-        height: mountRef.current.clientHeight,
-        offsetWidth: mountRef.current.offsetWidth,
-        offsetHeight: mountRef.current.offsetHeight,
-        getBoundingClientRect: mountRef.current.getBoundingClientRect()
-      });
-      
-      // Ensure container has proper dimensions (try multiple properties)
-      const containerWidth = mountRef.current.clientWidth || mountRef.current.offsetWidth || mountRef.current.getBoundingClientRect().width;
-      const containerHeight = mountRef.current.clientHeight || mountRef.current.offsetHeight || mountRef.current.getBoundingClientRect().height;
-      
-      if (!containerWidth || !containerHeight) {
-        console.log('Container has no dimensions, waiting for layout...');
-        // Wait for next frame to allow layout to complete
-        requestAnimationFrame(() => {
-          const retryWidth = mountRef.current?.clientWidth || mountRef.current?.offsetWidth || mountRef.current?.getBoundingClientRect().width;
-          const retryHeight = mountRef.current?.clientHeight || mountRef.current?.offsetHeight || mountRef.current?.getBoundingClientRect().height;
-          
-          if (mountRef.current && retryWidth && retryHeight) {
-            console.log('Container dimensions ready, initializing Three.js...');
-            initializeThreeJS();
-          } else {
-            console.error('Container still has no dimensions after layout');
-            if (isMountedRef.current) {
-              setHasError(true);
-              setErrorMessage("Failed to initialize 3D visualization: Container has no dimensions");
-              setIsLoading(false);
-            }
-          }
-        });
-        return;
-      }
-      
-      console.log('Container dimensions ready, initializing Three.js...');
-      initializeThreeJS();
     };
     
-    attemptInitialization();
+    // Simple delay to ensure DOM is ready
+    setTimeout(attemptInitialization, 500);
 
     return () => {
       clearTimeout(timeoutId);
@@ -340,12 +309,9 @@ function createCollatzUniverse(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   OrbitControls: any
 ): { cleanup: () => void } {
-  if (!container || !container.clientWidth || !container.clientHeight) {
-    throw new Error('Container has invalid dimensions');
-  }
-  
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+  // Use fallback dimensions if container doesn't have proper dimensions
+  const width = container.clientWidth || container.offsetWidth || 800;
+  const height = container.clientHeight || container.offsetHeight || 600;
   
   // Scene setup
   const scene = new THREE.Scene();
