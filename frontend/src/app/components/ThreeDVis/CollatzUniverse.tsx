@@ -71,7 +71,15 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     // Clear the mount container and append the canvas
     const container = mountRef.current;
     if (container) {
-      container.innerHTML = '';
+      // Use a more robust clearing method
+      while (container.firstChild) {
+        try {
+          container.removeChild(container.firstChild);
+        } catch (error) {
+          console.warn('Error removing child:', error);
+          break;
+        }
+      }
       container.appendChild(canvasRef.current);
     }
 
@@ -135,10 +143,14 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         }
         cleanupRef.current = null;
       }
-      // Remove the canvas from the container
-      if (canvasRef.current && mountRef.current && mountRef.current.contains(canvasRef.current)) {
+      // Remove the canvas from the container more safely
+      const currentMountRef = mountRef.current;
+      const currentCanvasRef = canvasRef.current;
+      if (currentCanvasRef && currentMountRef) {
         try {
-          mountRef.current.removeChild(canvasRef.current);
+          if (currentMountRef.contains(currentCanvasRef)) {
+            currentMountRef.removeChild(currentCanvasRef);
+          }
         } catch (error) {
           console.warn('Error removing canvas:', error);
         }
@@ -194,7 +206,11 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       </nav>
 
       {/* 3D Scene Container */}
-      <div className={styles.universeContainer} ref={mountRef}>
+      <div 
+        className={styles.universeContainer} 
+        ref={mountRef}
+        key={`universe-${currentSection}-${data.length}`}
+      >
         {(!isClient || isLoading) && (
           <div className={styles.loadingOverlay}>
             <div className={styles.loadingSpinner}></div>
