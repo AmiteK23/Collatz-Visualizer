@@ -83,12 +83,16 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         console.log('Starting Three.js initialization...');
         
         // Try to access Three.js from global scope or import
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let THREE: any;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let OrbitControls: any;
         
         // Check if Three.js is available globally
         if (typeof window !== 'undefined' && (window as any).THREE) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           THREE = (window as any).THREE;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           OrbitControls = (window as any).THREE.OrbitControls;
           console.log('Using global THREE');
         } else {
@@ -126,15 +130,16 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           console.log('3D universe created successfully');
           setIsLoading(false);
         }
-      } catch (error: any) {
-        console.error('Error in Three.js initialization:', error);
-        
-        if (isMountedRef.current) {
-          setHasError(true);
-          setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
-          setIsLoading(false);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          console.error('Error in Three.js initialization:', error);
+          
+          if (isMountedRef.current) {
+            setHasError(true);
+            setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
+            setIsLoading(false);
+          }
         }
-      }
     };
 
     // Add a timeout to prevent infinite loading
@@ -160,7 +165,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         cleanupRef.current = null;
       }
     };
-  }, [data, currentSection, isClient]);
+  }, [data, currentSection, isClient, isLoading]);
 
   const sections = [
     { id: "orbits", name: "Orbital Patterns", description: "Explore the orbital dynamics" },
