@@ -109,17 +109,17 @@ const Header: React.FC = () => {
               mobileMenuOpen ? styles.mobileMenuOpen : ""
             }`}
           >
-            <Link href="/#about" onClick={handleSmoothScroll}>
-              About
-            </Link>
-            <Link href="/#threeDVis" onClick={handleSmoothScroll}>
-              3D Visualizer
+            <Link href="/#universe" onClick={handleSmoothScroll}>
+              🌌 Universe
             </Link>
             <Link href="/#chartAnalysis" onClick={handleSmoothScroll}>
               Chart Analysis
             </Link>
             <Link href="/#powersOfTwo" onClick={handleSmoothScroll}>
               2ⁿ Range Visualizer
+            </Link>
+            <Link href="/#about" onClick={handleSmoothScroll}>
+              📋 Documentation
             </Link>
             <Link href="/#analysisScripts" onClick={handleSmoothScroll}>
               Analysis Scripts

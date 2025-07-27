@@ -2,12 +2,13 @@
 
 .codeContainer {
   padding: 32px;
-  background-color: $gray-100;
+  background: transparent;
   border-radius: 10px;
   max-width: 1200px;
   margin: 0 auto;
   box-shadow: $shadow-medium;
   overflow-x: hidden;
+  color: white;
 }
 
 .title {
@@ -26,7 +27,7 @@
 .tabHeader {
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid $gray-300;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin: 0 auto;
   max-width: 800px;
 }
@@ -37,12 +38,12 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: $gray-500;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 18px;
   transition: all 0.2s ease;
 
   &:hover {
-    color: $gray-600;
+    color: rgba(255, 255, 255, 0.9);
   }
 
   &.activeTab {
@@ -52,25 +53,26 @@
 }
 
 .infoPanel {
-  background-color: $color-white;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   padding: 24px;
   margin-bottom: 24px;
   box-shadow: $shadow-soft;
   max-width: 100%;
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .scriptTitle {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: $gray-600;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .scriptDescription {
   margin-bottom: 16px;
-  color: $gray-600;
+  color: rgba(255, 255, 255, 0.9);
   max-width: 100%;
   line-height: 1.5;
 }
@@ -81,7 +83,7 @@
   ul {
     list-style-type: disc;
     padding-left: 24px;
-    color: $gray-600;
+    color: rgba(255, 255, 255, 0.9);
 
     li {
       margin-bottom: 8px;
@@ -94,7 +96,7 @@
 .featureTitle {
   font-weight: 600;
   margin-bottom: 12px;
-  color: $gray-600;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .compatibilityNote {

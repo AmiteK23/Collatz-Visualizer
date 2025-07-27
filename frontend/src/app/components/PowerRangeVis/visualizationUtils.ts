@@ -189,18 +189,32 @@ export const fetchCollatzData = async (
   const API_BASE_URL = getApiBaseUrl();
 
   try {
+    console.log(`Attempting to fetch data from: ${API_BASE_URL}/collatz/visualization/${start}/${end}`);
+    
     const response = await fetch(
-      `${API_BASE_URL}/collatz/visualization/${start}/${end}`
+      `${API_BASE_URL}/collatz/visualization/${start}/${end}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Add timeout to prevent hanging
+        signal: AbortSignal.timeout(5000) // 5 second timeout
+      }
     );
 
     if (response.ok) {
-      return (await response.json()) as CollatzApiResponse;
+      const data = await response.json() as CollatzApiResponse;
+      console.log('API fetch successful:', data);
+      return data;
     }
 
-    throw new Error("Failed to fetch data");
+    console.warn(`API responded with status: ${response.status}`);
+    throw new Error(`Failed to fetch data: ${response.status}`);
   } catch (error) {
-    console.error("API fetch error:", error);
-    throw error;
+    console.warn("API fetch failed, will use local calculation:", error);
+    // Don't throw error, let the calling code handle fallback
+    throw new Error("API_UNAVAILABLE");
   }
 };
 

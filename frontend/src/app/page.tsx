@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
 import About from "./components/About/About";
 import AdvancedCollatzDashboard from "./components/ChartAnalysis/ChartAnalysis";
-import PalindromeMulVis from "./components/ThreeDVis/ThreeDVis";
 import CollatzPowerRangeVis from "./components/PowerRangeVis/PowerRangeVis";
+import UniverseSection from "./components/UniverseSection/UniverseSection";
 import Footer from "./components/Footer/Footer";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import styles from "./page.module.css"; // Add a fade transition wrapper
@@ -35,10 +35,10 @@ export default function Page() {
     <div className={styles.fadeInContent}>
       {/* Apply smooth fade-in transition */}
       <Header />
-      <About />
-      <PalindromeMulVis />
+      <UniverseSection />
       <AdvancedCollatzDashboard />
       <CollatzPowerRangeVis />
+      <About />
       <PythonCodeSharing />
       <Footer />
     </div>

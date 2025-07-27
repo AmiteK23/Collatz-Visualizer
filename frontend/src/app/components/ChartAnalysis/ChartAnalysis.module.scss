@@ -5,6 +5,8 @@
   border-radius: 12px;
   max-width: 1200px;
   margin: 32px auto 0;
+  background: transparent;
+  color: white;
 }
 
 .chartAnalysis {
@@ -14,10 +16,11 @@
   font-family: Arial, sans-serif;
   margin: 0 auto;
   min-height: 100vh;
-  color: $color-primary;
+  color: white;
   transition: background-color 0.3s color 0.3s ease-in-out;
   border-radius: 4px;
   overflow: hidden;
+  background: transparent;
 
   .chartAnalysisHeader {
     font-size: 28px;
@@ -98,6 +101,9 @@
     margin: 16px auto;
     padding: 24px;
     border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.6;
     font-size: 16px;
     color: $gray-700;
@@ -166,14 +172,15 @@
   .dashboardCard {
     border-radius: 12px;
     overflow: hidden;
-    background-color: $card-bg-light;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: $shadow-soft;
     margin-bottom: 24px;
     transition: all 0.3s ease;
 
     .cardHeader {
       padding: 20px;
-      border-bottom: 1px solid $border-light;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
       h2 {
         color: $color-primary;
@@ -197,15 +204,22 @@
           padding: 12px 16px;
           border-radius: 6px;
           font-size: 16px;
-          background-color: $card-bg-light;
-          color: $text-light;
-          border: 1px solid $border-light;
+          background-color: rgba(255, 255, 255, 0.1);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
           transition: all 0.2s ease;
+          position: relative;
+          z-index: 1;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+          }
 
           &:focus {
             outline: none;
             border-color: $button-primary;
             box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+            background-color: rgba(255, 255, 255, 0.15);
           }
 
           &::-webkit-inner-spin-button,
@@ -226,23 +240,25 @@
           padding: 20px;
           border-radius: 8px;
           text-align: center;
-          background-color: $metric-bg-light;
+          background-color: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           transition: all 0.3s ease;
 
           &:hover {
             transform: translateY(-2px);
+            background-color: rgba(255, 255, 255, 0.08);
           }
 
           .metricLabel {
             font-size: 14px;
-            color: lighten($text-light, 20%);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 8px;
           }
 
           .metricValue {
             font-size: 24px;
             font-weight: bold;
-            color: $text-light;
+            color: white;
           }
         }
       }
@@ -251,19 +267,85 @@
         margin-top: 24px;
         padding: 20px;
         border-radius: 8px;
-        background-color: $card-bg-light;
-        border: 1px solid $border-light;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         height: 400px;
+
+        // Dark theme for Recharts
+        .recharts-wrapper {
+          background-color: transparent !important;
+        }
+
+        .recharts-surface {
+          background-color: transparent !important;
+        }
 
         .recharts-cartesian-grid-horizontal,
         .recharts-cartesian-grid-vertical {
           line {
-            stroke: $border-light;
+            stroke: rgba(255, 255, 255, 0.2);
           }
         }
 
         .recharts-tooltip-wrapper {
-          background-color: $card-bg-light;
+          background-color: rgba(10, 15, 36, 0.95) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          color: white !important;
+        }
+
+        .recharts-tooltip-wrapper,
+        .recharts-tooltip-wrapper *,
+        .recharts-default-tooltip,
+        .recharts-default-tooltip * {
+          color: white !important;
+          fill: white !important;
+        }
+
+        .recharts-tooltip-label,
+        .recharts-tooltip-item,
+        .recharts-tooltip-item-list,
+        .recharts-tooltip-item-value,
+        .recharts-tooltip-item-name,
+        .recharts-tooltip-item-text {
+          color: white !important;
+          fill: white !important;
+        }
+
+        .recharts-default-tooltip {
+          background-color: rgba(10, 15, 36, 0.95) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          color: white !important;
+        }
+
+        // Force all text elements in tooltip to be white
+        .recharts-tooltip-wrapper p,
+        .recharts-tooltip-wrapper span,
+        .recharts-tooltip-wrapper div,
+        .recharts-default-tooltip p,
+        .recharts-default-tooltip span,
+        .recharts-default-tooltip div {
+          color: white !important;
+        }
+
+        .recharts-xAxis .recharts-cartesian-axis-tick-value,
+        .recharts-yAxis .recharts-cartesian-axis-tick-value {
+          fill: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .recharts-cartesian-axis-line {
+          stroke: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .recharts-cartesian-axis-tick-line {
+          stroke: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .recharts-legend-wrapper {
+          background-color: transparent !important;
+        }
+
+        .recharts-legend-item-text {
+          fill: rgba(255, 255, 255, 0.8) !important;
         }
       }
 
@@ -271,8 +353,8 @@
         margin-top: 24px;
         overflow-x: auto;
         border-radius: 8px;
-        background-color: $card-bg-light;
-        border: 1px solid $border-light;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         .dataTable {
           width: 100%;
@@ -283,22 +365,23 @@
           td {
             padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid $border-light;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
           }
 
           th {
-            background-color: $metric-bg-light;
+            background-color: rgba(255, 255, 255, 0.1);
             font-weight: 600;
-            color: $text-light;
+            color: white;
           }
 
           tr {
             &:nth-child(even) {
-              background-color: rgba($metric-bg-light, 0.5);
+              background-color: rgba(255, 255, 255, 0.03);
             }
 
             &:hover {
-              background-color: rgba($button-primary, 0.1);
+              background-color: rgba(74, 144, 226, 0.2);
             }
           }
         }
@@ -336,8 +419,8 @@
         margin-top: 16px;
         padding: 16px;
         border-radius: 8px;
-        background-color: $card-bg-light;
-        border: 1px solid $border-light;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         max-height: 300px;
         overflow-y: auto;
         position: relative;
@@ -346,7 +429,7 @@
           margin: 0;
           font-size: 14px;
           white-space: pre-wrap;
-          color: $text-light;
+          color: white;
         }
 
         .closePreviewButton {
@@ -356,7 +439,7 @@
           cursor: pointer;
           font-size: 14px;
           background-color: $button-primary;
-          color: $bg-light;
+          color: white;
           border: none;
           transition: all 0.2s ease;
 
@@ -414,8 +497,8 @@
 
 .tooltipText {
   position: absolute;
-  background-color: rgba(40, 44, 52, 0.95);
-  color: #fff;
+  background-color: rgba(10, 15, 36, 0.95);
+  color: white;
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 13px;
@@ -423,6 +506,7 @@
   z-index: 10000;
   opacity: 0;
   visibility: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   white-space: normal;

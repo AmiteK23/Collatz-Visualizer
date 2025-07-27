@@ -18,6 +18,8 @@ import {
   getLineColor,
   fetchCollatzData,
   processApiDataForChart,
+  generateSequencesInRange,
+  formatDataForChart,
 } from "./visualizationUtils";
 import { PathsGroupData, PowerRangeData } from "./types";
 import styles from "./PowerRangeVis.module.scss";
@@ -38,7 +40,7 @@ const PowerRangeVis: React.FC = () => {
     minPower: "4",
     maxPower: "9",
   });
-  const [useApi, setUseApi] = useState<boolean>(true);
+  const [useApi, setUseApi] = useState<boolean>(false); // Default to local calculation
 
   // Create a ref object for the chart refs
   const chartRefsRef = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -67,11 +69,19 @@ const PowerRangeVis: React.FC = () => {
           range: [range.start, range.end],
         });
       } catch (err) {
-        console.error(
-          `Failed to fetch data for range ${range.start}-${range.end}:`,
+        console.warn(
+          `Failed to fetch data for range ${range.start}-${range.end}, using local calculation:`,
           err
         );
-        throw err;
+        // For this specific range, use local calculation instead of throwing
+        const localSequences = generateSequencesInRange(range.start, range.end);
+        const chartData = formatDataForChart(localSequences);
+        
+        newChartGroups.push({
+          title: `Collatz Paths for Odd Numbers in Interval [${range.start}-${range.end}] (Local)`,
+          data: chartData,
+          range: [range.start, range.end],
+        });
       }
     }
 

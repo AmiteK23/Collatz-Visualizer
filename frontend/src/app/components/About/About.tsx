@@ -14,6 +14,24 @@ const About: React.FC = () => {
     research: false,
   });
 
+  // Smooth scroll function (same as header)
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    const href = e.currentTarget.href;
+    const targetId = href.includes("#") ? href.split("#")[1] : null;
+
+    if (targetId) {
+      e.preventDefault();
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 70, // Adjust offset for header height
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   // Set mounted to true after component mounts
   useEffect(() => {
     setMounted(true);
@@ -38,8 +56,21 @@ const About: React.FC = () => {
   return (
     <div className={styles.aboutContainer} id="about">
       <h1 className={styles.aboutTitle}>
-        Collatz Conjecture Visualization Tool
+        📋 Complete Documentation & Research Guide
       </h1>
+
+      <div className={styles.introPanel}>
+        <p>
+          Welcome to the comprehensive documentation for the Collatz Conjecture Visualization Tool. 
+          This section provides detailed explanations, mathematical insights, usage instructions, 
+          and research context for those who want to dive deeper into the project.
+        </p>
+        <p>
+          <strong>Quick Start:</strong> If you're new to the Collatz conjecture, we recommend starting 
+          with the <a href="/#universe" style={{color: '#667eea', textDecoration: 'underline'}} onClick={handleSmoothScroll}>🌌 Universe section</a> 
+          for an interactive introduction, then returning here for detailed documentation.
+        </p>
+      </div>
 
       <div className={styles.devNotice}>
         <h3>🚧 Development Status</h3>

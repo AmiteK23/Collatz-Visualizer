@@ -14,11 +14,48 @@
 html,
 body {
   width: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
-  background-color: $default-bg;
+  background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 50%, #0a0a2a 100%);
+  background-attachment: fixed;
   color: $default-text-color;
 }
 
 p {
   margin-bottom: 10px;
+}
+
+// Global tooltip styling for Recharts
+.recharts-tooltip-wrapper,
+.recharts-tooltip-wrapper *,
+.recharts-default-tooltip,
+.recharts-default-tooltip * {
+  color: white !important;
+  fill: white !important;
+}
+
+.recharts-tooltip-label,
+.recharts-tooltip-item,
+.recharts-tooltip-item-list,
+.recharts-tooltip-item-value,
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-text {
+  color: white !important;
+  fill: white !important;
+}
+
+.recharts-default-tooltip {
+  background-color: rgba(10, 15, 36, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+// Force all text elements in tooltip to be white
+.recharts-tooltip-wrapper p,
+.recharts-tooltip-wrapper span,
+.recharts-tooltip-wrapper div,
+.recharts-default-tooltip p,
+.recharts-default-tooltip span,
+.recharts-default-tooltip div {
+  color: white !important;
 }

@@ -1,11 +1,11 @@
-# 📊 Collatz Visualizer
+# 🌌 Collatz Visualizer
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue)
 ![Built with Next.js](https://img.shields.io/badge/Next.js-frontend-blue)
 ![Python Flask](https://img.shields.io/badge/Flask-backend-yellow)
 ![Three.js](https://img.shields.io/badge/Three.js-3D-green)
 
-An interactive web app that visualizes the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) with scientific-style insights, dynamic stats, and beautiful 3D graphics.
+An immersive web application that visualizes the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture) with stunning 3D graphics, interactive exploration, and mathematical insights. Experience the beauty of mathematical patterns in an immersive universe.
 
 🔗 [Live Demo](https://collatz-visualizer.vercel.app)  
 📁 [Frontend Code](https://github.com/AmiteK23/Collatz-Visualizer/tree/main/frontend)  
@@ -15,59 +15,54 @@ An interactive web app that visualizes the [Collatz Conjecture](https://en.wikip
 
 ## 🧠 About the Project
 
-This tool explores the mathematical patterns hidden in the Collatz Conjecture, offering both **interactive data analysis** and **real-time 3D sequence rendering**. It serves as both a visualizer and an analytical tool to better understand this fascinating problem.
+This tool explores the mathematical patterns hidden in the Collatz Conjecture through an immersive 3D universe experience. It combines **interactive data analysis**, **real-time 3D sequence rendering**, and **beautiful visualizations** to help understand this fascinating mathematical problem.
 
 ## 🧩 Project Goals
 
 This project aims to:
 
-🔍 Investigate the Collatz Conjecture through computational methods and visual modeling, offering new ways to interpret and explore its structure.
+🔍 **Investigate the Collatz Conjecture** through computational methods and immersive 3D visual modeling, offering new ways to interpret and explore its structure.
 
-🧱 Develop a scalable, modular web application using modern full-stack technologies (Next.js, Flask), with a focus on performance and data integrity.
+🧱 **Develop a scalable, modular web application** using modern full-stack technologies (Next.js, Flask), with a focus on performance and user experience.
 
-📈 Present mathematical patterns visually, combining algorithmic logic with real-time 3D rendering and interactive charts to support both educational and analytical use cases.
+📈 **Present mathematical patterns visually** through an immersive 3D universe, combining algorithmic logic with real-time rendering and interactive charts.
 
 ---
 
 ## 🚀 Features
 
+### 🌌 Collatz Universe (New!)
+- **Immersive 3D Experience**: Explore the Collatz conjecture in a beautiful 3D universe
+- **Interactive Navigation**: Switch between different visualization modes
+- **Custom Number Input**: Visualize your own ranges of numbers
+- **Orbital Patterns**: Watch numbers orbit in 3D space
+- **Sequence Flow**: Follow the mathematical journey
+- **Pattern Analysis**: Discover hidden structures
+- **Your Insights**: Visualize your Collatz discoveries
+
 ### 📊 Chart Analysis
+- **Comprehensive Statistics**:
+  - Max Steps, Max Value, Odd Steps
+  - Harmonic Sum, Growth Factor
+  - Division Count, Times Stayed Odd
+- **Interactive Charts**: Bar and Line visualizations
+- **Data Export**: JSON and SVG formats
+- **Dark Theme**: Beautiful purple gradient interface
 
-- **Analyze Stats**:
-  - Max Steps
-  - Max Value
-  - Odd Steps
-  - Harmonic Sum
-  - Growth Factor
-- **Toggle Chart Types**:
-  - **Bar** / **Line**
-- **Export Data**:
-  - **JSON**
-  - **SVG**
-
-### 🌌 3D Sequence Visualizer
-
-- **Animated Collatz Sequences**: Visualize Collatz sequences in 3D with smooth animations.
-- **Smooth Curve Rendering with Catmull-Rom Splines**: The 3D visualizer employs THREE.CatmullRomCurve3 from Three.js to interpolate between sequence points, resulting in smooth and continuous curves that enhance the visual representation of the Collatz sequences.
-
-### 🔢 2^n Range Visualizer
-
-- Visualizes Collatz sequences for numbers in the range \( 2^n \) to \( 2^{(n+1)} \).
+### 🔢 2ⁿ Range Visualizer
+- **Power Range Analysis**: Visualize Collatz sequences for numbers in 2ⁿ ranges
+- **Custom Tooltips**: Detailed information on hover
+- **Responsive Design**: Works perfectly on all devices
 
 ### 🧑‍💻 Python Analysis Scripts
-
-- Includes Python scripts for in-depth Collatz sequence analysis:
-  - **Max Steps**
-  - **Max Value**
-  - **Odd Steps**
-  - **Total Sum**
-  - **Growth Factor**
-- These scripts provide a programmatic approach to extract statistical insights, aiding in further exploration of the Collatz conjecture.
+- **Advanced Analysis**: Max Steps, Max Value, Odd Steps, Total Sum, Growth Factor
+- **Programmatic Insights**: Extract statistical patterns
+- **Research Tools**: Aid in further exploration of the Collatz conjecture
 
 ### 🧮 Backend API
-
-- Built with **Python + Flask**
-- Efficiently computes Collatz data over large ranges
+- **Python + Flask**: Efficient computation over large ranges
+- **RESTful Endpoints**: Clean API design
+- **Performance Optimized**: Handles large datasets efficiently
 
 ---
 
@@ -75,8 +70,10 @@ This project aims to:
 
 | Layer      | Tech Used                                |
 | ---------- | ---------------------------------------- |
-| Frontend   | Next.js, React, SCSS, Chart.js, Three.js |
+| Frontend   | Next.js, React, SCSS, Three.js, Recharts |
 | Backend    | Python, Flask                            |
+| 3D Graphics| Three.js, OrbitControls                  |
+| Styling    | SCSS Modules, Glass Morphism             |
 | Deployment | Vercel (frontend), Render (backend)      |
 
 ---
@@ -88,42 +85,92 @@ collatz-visualizer/
 ├── backend/                  # Flask API
 ├── frontend/                 # Next.js App (App Router)
 ├── requirements.txt          # Python dependencies
+├── setup_backend.bat         # Windows backend setup script
+├── README_BACKEND_SETUP.md   # Backend setup guide
+├── UNIVERSE_README.md        # Universe feature documentation
+├── UNIVERSE_INTEGRATION.md   # Integration guide
 ├── .env.local                # Local environment variables (not committed)
 ├── .gitignore                # Git ignored files
 └── README.md                 # Project documentation
 </details>
+
 <details> <summary><strong>🧠 Backend</strong> — Python + Flask API</summary>
 backend/
 ├── __init__.py               # Flask app factory
-├── routes/                  # API route handlers
-│   └── collatz.py            # Endpoint logic for sequence/statistics
-└── utils/                   # Sequence computation logic
-    ├── collatz.py            # Core Collatz logic
-    └── stats.py              # Statistical analysis functions
+├── collatz_backend.py        # Main Flask application
+└── app.py                    # Entry point
 </details>
+
 <details> <summary><strong>🎨 Frontend</strong> — Next.js + App Router</summary>
 frontend/
-├── public/                   # Static assets (SVGs, favicon, etc.)
-│   ├── globe.svg
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── ...
+├── public/                   # Static assets
 ├── src/
 │   ├── app/                  # App Router entry
 │   │   ├── layout.tsx        # Root layout
 │   │   ├── page.tsx          # Landing page
-│   │   └── page.module.css   # Styling for landing page
-│   ├── components/           # React components (each with SCSS Modules)
-│   │   ├── ChartAnalysis/
-│   │   ├── ThreeDVis/
-│   │   ├── PowerRangeVis/
-│   │   ├── LoadingScreen/
-│   │   ├── Footer/
-│   │   └── Explanations/
-│   ├── utils/                # Frontend utilities (CSV, JSON, math helpers)
-│   ├── globals.scss          # Global SCSS styles
-│   └── _variables.scss       # SCSS variables
+│   │   ├── universe/         # Full universe experience
+│   │   ├── debug-universe/   # Debug page
+│   │   └── globals.scss      # Global styles
+│   ├── components/           # React components
+│   │   ├── UniverseSection/  # Main universe preview
+│   │   ├── ThreeDVis/        # 3D visualization logic
+│   │   ├── ChartAnalysis/    # Data analysis charts
+│   │   ├── PowerRangeVis/    # 2ⁿ range visualizer
+│   │   ├── PythonCodeSharing/# Analysis scripts
+│   │   ├── About/            # Documentation
+│   │   ├── Header/           # Navigation
+│   │   └── Footer/           # Footer component
+│   └── utils/                # Frontend utilities
 </details>
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm
+- Python 3.8+
+
+### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Backend Setup
+```bash
+# Windows (using provided script)
+setup_backend.bat
+
+# Manual setup
+py -m pip install -r requirements.txt
+py app.py
+```
+
+### Alternative Backend Setup
+See [README_BACKEND_SETUP.md](README_BACKEND_SETUP.md) for detailed instructions.
+
+---
+
+## 🌟 Key Features
+
+### 🎨 Beautiful UI/UX
+- **Purple Gradient Theme**: Immersive dark theme with purple gradients
+- **Glass Morphism**: Modern frosted glass effects
+- **Responsive Design**: Perfect on desktop and mobile
+- **Smooth Animations**: Fluid transitions and interactions
+
+### 🔧 Technical Excellence
+- **Error Boundaries**: Graceful error handling
+- **Performance Optimized**: Efficient 3D rendering
+- **API Fallbacks**: Local calculation when backend unavailable
+- **Mobile Optimized**: Touch-friendly controls
+
+### 📚 Comprehensive Documentation
+- **Interactive Tutorials**: Built-in learning guides
+- **Mathematical Insights**: Detailed explanations
+- **API Documentation**: Complete backend reference
 
 ---
 
@@ -143,11 +190,20 @@ Feel free to use, fork, and build upon it — just drop a ⭐ if you find it use
 
 ## 📌 Notes
 
-- Actively maintained with new features coming soon
-- Great for devs, recruiters, students & math enthusiasts
+- **Actively Maintained**: New features and improvements regularly added
+- **Perfect for**: Developers, researchers, students & math enthusiasts
+- **Educational Value**: Great for learning about the Collatz conjecture
+- **Research Tool**: Useful for mathematical exploration and analysis
 
 ---
 
 ## 🌟 Contributing
 
 Fork it, star it, or raise an issue — PRs are always welcome!
+
+### Recent Updates
+- ✨ **New Collatz Universe**: Immersive 3D experience
+- 🎨 **Purple Theme**: Beautiful gradient design
+- 📱 **Mobile Optimized**: Perfect responsive design
+- 🔧 **Performance**: Optimized 3D rendering
+- 📚 **Documentation**: Comprehensive guides and tutorials

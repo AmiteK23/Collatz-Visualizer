@@ -4,10 +4,11 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 32px;
-  background-color: $gray-100;
+  background: transparent;
   border-radius: 10px;
   box-shadow: $shadow-medium;
   overflow-x: hidden;
+  color: white;
 }
 
 .aboutTitle {
@@ -25,10 +26,10 @@
   align-items: center;
   justify-content: center;
   font-size: 19px;
-  color: $gray-600;
-  background-color: $gray-100;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  border: 2px dashed $gray-400;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
 }
 
 .devNotice {
@@ -72,30 +73,32 @@
 }
 
 .introPanel {
-  background-color: $color-white;
+  background-color: rgba(255, 255, 255, 0.05);
   padding: 24px;
   margin-bottom: 32px;
   border-radius: 8px;
   box-shadow: $shadow-soft;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   p {
     font-size: 16px;
     line-height: 1.6;
-    color: $gray-600;
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
 .tabsContainer {
-  background-color: $color-white;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   box-shadow: $shadow-soft;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tabsList {
   display: flex;
-  border-bottom: 1px solid $gray-300;
-  background-color: $gray-50;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .tabButton {
@@ -108,15 +111,15 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: $gray-500;
+  color: rgba(255, 255, 255, 0.7);
 
   &:hover {
-    background-color: $gray-200;
+    background-color: rgba(255, 255, 255, 0.1);
     color: $color-primary;
   }
 
   &.activeTab {
-    background-color: $color-white;
+    background-color: rgba(255, 255, 255, 0.1);
     color: $color-primary;
     font-weight: 600;
     border-bottom: 2px solid $color-primary;
@@ -125,9 +128,18 @@
 
 .tabContent {
   padding: 24px;
+  color: rgba(255, 255, 255, 0.9);
 
   > div {
     animation: fadeIn 0.3s ease;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  li {
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
@@ -141,7 +153,7 @@
 .subsectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: $gray-600;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 12px;
   margin-top: 24px;
 }
@@ -176,7 +188,7 @@
 
   strong {
     font-weight: 600;
-    color: $gray-600;
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
@@ -185,10 +197,11 @@
 }
 
 .accordionItem {
-  border: 1px solid $gray-300;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   margin-bottom: 12px;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .accordionTrigger {
@@ -197,17 +210,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: $gray-50;
+  background-color: rgba(255, 255, 255, 0.05);
   border: none;
   text-align: left;
   font-size: 18px;
   font-weight: 500;
-  color: $gray-600;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: $gray-200;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .accordionIcon {

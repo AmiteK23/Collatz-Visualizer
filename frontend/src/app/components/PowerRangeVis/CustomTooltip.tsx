@@ -23,15 +23,16 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
   return (
     <div
       style={{
-        backgroundColor: "white",
+        backgroundColor: "rgba(10, 15, 36, 0.95)",
         padding: "10px",
-        border: "1px solid #ccc",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
         borderRadius: "5px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.15)",
         maxWidth: "250px",
+        color: "white",
       }}
     >
-      <p style={{ margin: "0 0 5px", fontWeight: "bold" }}>Step: {label}</p>
+      <p style={{ margin: "0 0 5px", fontWeight: "bold", color: "white" }}>Step: {label}</p>
       {limitedPayload.map((entry, index) => (
         <div
           key={`item-${index}`}
@@ -50,7 +51,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
               borderRadius: "50%",
             }}
           />
-          <span style={{ fontSize: "0.8rem" }}>
+          <span style={{ fontSize: "0.8rem", color: "white" }}>
             {entry.name}: {entry.value}
           </span>
         </div>
@@ -61,7 +62,7 @@ const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
             margin: "5px 0 0",
             fontSize: "0.8rem",
             fontStyle: "italic",
-            color: "#666",
+            color: "rgba(255, 255, 255, 0.8)",
           }}
         >
           +{payload.length - 5} more...
