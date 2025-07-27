@@ -298,11 +298,19 @@ function createCollatzUniverse(
   const animate = () => {
     const elapsedTime = clock.getElapsedTime();
     
-    // Rotate starfield
+    // Animate starfield
     starfield.rotation.y = elapsedTime * 0.1;
     
-    // Animate visualization group
+    // Animate visualization
     visualizationGroup.rotation.y = elapsedTime * 0.2;
+    
+    // Animate individual elements
+    visualizationGroup.children.forEach((child: any, index: number) => {
+      if (child instanceof THREE.Mesh) {
+        child.rotation.x = Math.sin(elapsedTime + index) * 0.1;
+        child.rotation.z = Math.cos(elapsedTime + index) * 0.1;
+      }
+    });
     
     // Update controls
     controls.update();
@@ -354,30 +362,37 @@ function createCollatzUniverse(
 function createOrbitalVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
-  data.forEach((item) => {
+  data.forEach((item, index) => {
+    const radius = 10 + (item.n % 20) * 2;
+    const angle = (index / data.length) * Math.PI * 2;
+    
     // Create orbital ring
-    const radius = 5 + (item.n % 10) * 2;
-    const geometry = new THREE.RingGeometry(radius - 0.1, radius + 0.1, 32);
-    const material = new THREE.MeshBasicMaterial({
+    const ringGeometry = new THREE.RingGeometry(radius - 0.5, radius + 0.5, 32);
+    const ringMaterial = new THREE.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
+      side: THREE.DoubleSide
     });
-    const ring = new THREE.Mesh(geometry, material);
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
     ring.rotation.x = Math.PI / 2;
     ring.position.y = (item.timesStayedOdd / 10) * 5;
     group.add(ring);
     
-    // Add orbital point
-    const pointGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-    const pointMaterial = new THREE.MeshPhongMaterial({
+    // Create central sphere
+    const sphereGeometry = new THREE.SphereGeometry(1, 16, 16);
+    const sphereMaterial = new THREE.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       emissive: getColorForNumber(item.n),
-      emissiveIntensity: 0.3
+      emissiveIntensity: 0.2
     });
-    const point = new THREE.Mesh(pointGeometry, pointMaterial);
-    point.position.set(radius, (item.timesStayedOdd / 10) * 5, 0);
-    group.add(point);
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    sphere.position.set(
+      Math.cos(angle) * radius,
+      (item.timesStayedOdd / 10) * 5,
+      Math.sin(angle) * radius
+    );
+    group.add(sphere);
   });
   
   return group;
