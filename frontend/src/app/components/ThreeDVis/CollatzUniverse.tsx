@@ -14,7 +14,7 @@ interface CollatzUniverseProps {
 /**
  * Immersive 3D Collatz Universe - Bruno Simon inspired
  */
-export default function CollatzUniverse({ data, onNavigate }: CollatzUniverseProps) {
+export default function CollatzUniverse({ data }: CollatzUniverseProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
   const [currentSection, setCurrentSection] = useState("orbits");
@@ -96,7 +96,7 @@ export default function CollatzUniverse({ data, onNavigate }: CollatzUniversePro
         cleanupRef.current = null;
       }
     };
-  }, [data, currentSection]);
+  }, [data, currentSection, isClient]);
 
   const sections = [
     { id: "orbits", name: "Orbital Patterns", description: "Explore the orbital dynamics" },
@@ -253,7 +253,7 @@ function createCollatzUniverse(
       visualizationGroup = createPatternVisualization(data);
       break;
     case "insights":
-      visualizationGroup = createInsightsVisualization(data);
+              visualizationGroup = createInsightsVisualization();
       break;
     default:
       visualizationGroup = createOrbitalVisualization(data);
@@ -441,13 +441,13 @@ function createPatternVisualization(data: MulData[]): THREE.Group {
 /**
  * Creates insights visualization
  */
-function createInsightsVisualization(data: MulData[]): THREE.Group {
+function createInsightsVisualization(): THREE.Group {
   const group = new THREE.Group();
   
   // Create mathematical symbols and insights
   const symbols = ['∑', '∫', 'π', '∞', 'φ', '√', '∇', '∂'];
   
-  symbols.forEach((symbol, index) => {
+  symbols.forEach((symbol) => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;

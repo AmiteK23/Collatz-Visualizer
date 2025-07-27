@@ -243,7 +243,7 @@ export function createVisualizationScene(
   const labels: HTMLDivElement[] = [];
 
   // Generate enhanced orbital paths
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     // Determine radius based on n value with more variation
     const radius = 8 + (item.n % 15) * 1.2;
     const orbitalTilt = ((item.n % 7) * Math.PI) / 14;
@@ -362,7 +362,7 @@ export function createVisualizationScene(
 
   // Add floating mathematical symbols
   const symbols = ['∑', '∫', 'π', '∞', 'φ', '√'];
-  symbols.forEach((symbol, index) => {
+  symbols.forEach((symbol) => {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
     canvas.height = 64;
@@ -419,7 +419,7 @@ export function createVisualizationScene(
     pointLight2.position.z = Math.cos(elapsedTime * 0.3 + Math.PI) * 30;
     
     // Update labels
-    labels.forEach(label => {
+    labels.forEach(() => {
       // Label position updates will be handled in the main component
     });
     

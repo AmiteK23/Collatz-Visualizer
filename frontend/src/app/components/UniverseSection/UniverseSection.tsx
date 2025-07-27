@@ -294,7 +294,7 @@ export default function UniverseSection() {
               </ul>
               <p>
                 Despite its simple formulation, the conjecture remains unproven after decades of research, 
-                making it one of mathematics' most intriguing open problems.
+                making it one of mathematics&apos; most intriguing open problems.
               </p>
             </div>
 
@@ -305,7 +305,7 @@ export default function UniverseSection() {
               </p>
               <ul>
                 <li><strong>Mersenne-like numbers (2ⁿ-1):</strong> Require exactly n odd steps before reaching an even number</li>
-                <li><strong>Numbers ≡ 1 (mod 4):</strong> Serve as "root" ancestors, transitioning to even numbers in a single odd step</li>
+                <li><strong>Numbers ≡ 1 (mod 4):</strong> Serve as &quot;root&quot; ancestors, transitioning to even numbers in a single odd step</li>
                 <li><strong>Numbers ≡ 3 (mod 4):</strong> Can be reduced to their ancestors by applying (x-1)/2 repeatedly</li>
                 <li><strong>Binary tree structure:</strong> Each ancestor generates an infinite tree of descendants</li>
               </ul>
@@ -319,8 +319,8 @@ export default function UniverseSection() {
               <ul>
                 <li><strong>Mouse:</strong> Click and drag to rotate, scroll to zoom, right-click to pan</li>
                 <li><strong>Navigation:</strong> Use the menu to switch between different visualization modes</li>
-                <li><strong>Custom Range:</strong> Click "Enter Numbers" to visualize your own range (e.g., "3-20")</li>
-                <li><strong>Full Experience:</strong> Click "Explore Full Universe" for the complete immersive experience</li>
+                <li><strong>Custom Range:</strong> Click &quot;Enter Numbers&quot; to visualize your own range (e.g., &quot;3-20&quot;)</li>
+                <li><strong>Full Experience:</strong> Click &quot;Explore Full Universe&quot; for the complete immersive experience</li>
               </ul>
               <p>
                 <strong>Color Coding:</strong> Different colors represent special number types and their mathematical properties.

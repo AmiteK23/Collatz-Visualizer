@@ -14,7 +14,7 @@ interface CollatzUniverseDebugProps {
 /**
  * Debug version of CollatzUniverse with detailed logging
  */
-export default function CollatzUniverseDebug({ data, onNavigate }: CollatzUniverseDebugProps) {
+export default function CollatzUniverseDebug({ data }: CollatzUniverseDebugProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
   const [currentSection, setCurrentSection] = useState("orbits");
@@ -273,7 +273,7 @@ function createCollatzUniverse(
       visualizationGroup = createPatternVisualization(data);
       break;
     case "insights":
-      visualizationGroup = createInsightsVisualization(data);
+              visualizationGroup = createInsightsVisualization();
       break;
     default:
       visualizationGroup = createOrbitalVisualization(data);
@@ -437,13 +437,13 @@ function createPatternVisualization(data: MulData[]): THREE.Group {
   return group;
 }
 
-function createInsightsVisualization(data: MulData[]): THREE.Group {
+function createInsightsVisualization(): THREE.Group {
   const group = new THREE.Group();
   
   // Create mathematical symbols and insights
   const symbols = ['∑', '∫', 'π', '∞', 'φ', '√', '∇', '∂'];
   
-  symbols.forEach((symbol, index) => {
+  symbols.forEach((symbol) => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;

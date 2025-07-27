@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import styles from "./About.module.scss";
 
 const About: React.FC = () => {
@@ -66,8 +67,8 @@ const About: React.FC = () => {
           and research context for those who want to dive deeper into the project.
         </p>
         <p>
-          <strong>Quick Start:</strong> If you're new to the Collatz conjecture, we recommend starting 
-          with the <a href="/#universe" style={{color: '#667eea', textDecoration: 'underline'}} onClick={handleSmoothScroll}>🌌 Universe section</a> 
+          <strong>Quick Start:</strong> If you&apos;re new to the Collatz conjecture, we recommend starting 
+          with the <Link href="/#universe" style={{color: '#667eea', textDecoration: 'underline'}} onClick={handleSmoothScroll}>🌌 Universe section</Link> 
           for an interactive introduction, then returning here for detailed documentation.
         </p>
       </div>
