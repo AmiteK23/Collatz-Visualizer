@@ -10,17 +10,17 @@ interface CollatzUniverseProps {
 }
 
 /**
- * Immersive 3D Collatz Universe - Bruno Simon inspired
+ * Immersive 3D Collatz Universe - Standalone Three.js approach
  */
 export default function CollatzUniverse({ data }: CollatzUniverseProps) {
   const mountRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
   const [currentSection, setCurrentSection] = useState("orbits");
   const [isLoading, setIsLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isInitializing, setIsInitializing] = useState(false);
   const isMountedRef = useRef(true);
 
   // Set isClient to true when component mounts on client
@@ -41,12 +41,10 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       currentSection
     });
     
-    if (!mountRef.current || !data.length || !isClient || isInitializing) {
-      console.log('Skipping 3D scene creation - missing requirements or already initializing');
+    if (!mountRef.current || !data.length || !isClient) {
+      console.log('Skipping 3D scene creation - missing requirements');
       return;
     }
-
-    setIsInitializing(true);
 
     // Clear previous content safely
     if (cleanupRef.current) {
@@ -62,113 +60,53 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     setHasError(false);
     setErrorMessage("");
 
-    // Safely clear container - use a more robust approach
-    const container = mountRef.current;
-    if (container) {
-      try {
-        // First try to clear with innerHTML
-        container.innerHTML = '';
-      } catch (error) {
-        console.warn('Error clearing container with innerHTML:', error);
-        // If that fails, try a more careful approach
-        try {
-          while (container.firstChild) {
-            container.removeChild(container.firstChild);
-          }
-        } catch (removeError) {
-          console.warn('Error removing children:', removeError);
-          // Last resort: just log the error and continue
-        }
-      }
+    // Create a standalone canvas element (not managed by React)
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+      canvasRef.current.style.width = '100%';
+      canvasRef.current.style.height = '100%';
+      canvasRef.current.style.display = 'block';
     }
 
-    // Simple initialization with error handling
-    const initializeThreeJS = () => {
+    // Clear the mount container and append the canvas
+    const container = mountRef.current;
+    if (container) {
+      container.innerHTML = '';
+      container.appendChild(canvasRef.current);
+    }
+
+    // Initialize Three.js with the standalone canvas
+    const initializeThreeJS = async () => {
       try {
         console.log('Starting Three.js initialization...');
         
-        // Try to access Three.js from global scope or import
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let THREE: any;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let OrbitControls: any;
+        // Dynamic import of Three.js
+        const THREE = await import('three');
+        const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js');
         
-        // Check if Three.js is available globally
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if (typeof window !== 'undefined' && (window as any).THREE) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          THREE = (window as any).THREE;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          OrbitControls = (window as any).THREE.OrbitControls;
-          console.log('Using global THREE');
-        } else {
-          // Try to import dynamically
-          console.log('Attempting dynamic import of Three.js...');
-          import('three').then((threeModule) => {
-            console.log('Three.js module loaded successfully');
-            return import('three/examples/jsm/controls/OrbitControls.js').then((controlsModule) => {
-              console.log('OrbitControls module loaded successfully');
-              THREE = threeModule;
-              OrbitControls = controlsModule.OrbitControls;
-              
-              if (!THREE || !OrbitControls) {
-                throw new Error('Three.js or OrbitControls not properly loaded');
-              }
-              
-              console.log('Creating 3D universe...');
-              try {
-                if (!mountRef.current) {
-                  throw new Error('Container element is not available');
-                }
-                const { cleanup } = createCollatzUniverse(mountRef.current, data, currentSection, THREE, OrbitControls);
-                cleanupRef.current = cleanup;
-                
-                if (isMountedRef.current) {
-                  console.log('3D universe created successfully');
-                  setIsLoading(false);
-                  setIsInitializing(false);
-                }
-              } catch (universeError) {
-                console.error('Error creating 3D universe:', universeError);
-                throw new Error(`Failed to create 3D universe: ${universeError}`);
-              }
-            });
-          }).catch((importError) => {
-            console.error('Error in dynamic import:', importError);
-            if (isMountedRef.current) {
-              setHasError(true);
-              setErrorMessage(`Failed to load Three.js: ${importError.message}. Please refresh the page.`);
-              setIsLoading(false);
-              setIsInitializing(false);
-            }
-          });
-          return; // Exit early since we're using async imports
+        console.log('Three.js modules loaded successfully');
+        
+        if (!canvasRef.current) {
+          throw new Error('Canvas element is not available');
         }
-        
-        // If we have THREE from global scope, create the universe
+
         console.log('Creating 3D universe...');
-        if (!mountRef.current) {
-          throw new Error('Container element is not available');
-        }
-        const { cleanup } = createCollatzUniverse(mountRef.current, data, currentSection, THREE, OrbitControls);
+        const { cleanup } = createCollatzUniverse(canvasRef.current, data, currentSection, THREE, OrbitControls);
         cleanupRef.current = cleanup;
         
         if (isMountedRef.current) {
           console.log('3D universe created successfully');
           setIsLoading(false);
-          setIsInitializing(false);
         }
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-          console.error('Error in Three.js initialization:', error);
-          
-          if (isMountedRef.current) {
-            setHasError(true);
-            setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
-            setIsLoading(false);
-            setIsInitializing(false);
-          }
+      } catch (error: any) {
+        console.error('Error in Three.js initialization:', error);
+        
+        if (isMountedRef.current) {
+          setHasError(true);
+          setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
+          setIsLoading(false);
         }
+      }
     };
 
     // Add a timeout to prevent infinite loading
@@ -178,41 +116,17 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         setHasError(true);
         setErrorMessage("3D visualization took too long to load. Please refresh the page.");
         setIsLoading(false);
-        setIsInitializing(false);
       }
     }, 10000); // 10 second timeout
 
-    // Simplified initialization - just try to initialize after a short delay
-    const attemptInitialization = () => {
-      // Force container to have dimensions if it doesn't
-      if (mountRef.current) {
-        // Set explicit dimensions if they're missing
-        if (!mountRef.current.style.width) {
-          mountRef.current.style.width = '100%';
-        }
-        if (!mountRef.current.style.height) {
-          mountRef.current.style.height = '600px';
-        }
-        
-        console.log('Container ready, forcing dimensions and initializing...');
-        initializeThreeJS();
-      } else {
-        console.error('Container still not available');
-        if (isMountedRef.current) {
-          setHasError(true);
-          setErrorMessage("Failed to initialize 3D visualization: Container not available");
-          setIsLoading(false);
-          setIsInitializing(false);
-        }
-      }
-    };
-    
-    // Simple delay to ensure DOM is ready
-    setTimeout(attemptInitialization, 500);
+    // Initialize after a short delay to ensure DOM is ready
+    const initTimeoutId = setTimeout(() => {
+      initializeThreeJS();
+    }, 100);
 
     return () => {
       clearTimeout(timeoutId);
-      setIsInitializing(false);
+      clearTimeout(initTimeoutId);
       if (cleanupRef.current && isMountedRef.current) {
         try {
           cleanupRef.current();
@@ -220,6 +134,14 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           console.warn('Error during cleanup effect:', error);
         }
         cleanupRef.current = null;
+      }
+      // Remove the canvas from the container
+      if (canvasRef.current && mountRef.current && mountRef.current.contains(canvasRef.current)) {
+        try {
+          mountRef.current.removeChild(canvasRef.current);
+        } catch (error) {
+          console.warn('Error removing canvas:', error);
+        }
       }
     };
   }, [data, currentSection, isClient]);
@@ -235,6 +157,8 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     setHasError(false);
     setErrorMessage("");
     setIsLoading(true);
+    // Reset canvas reference
+    canvasRef.current = null;
     // Force re-render by updating a state
     setCurrentSection(currentSection);
   };
@@ -313,7 +237,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
  * Creates the immersive Collatz universe scene
  */
 function createCollatzUniverse(
-  container: HTMLDivElement,
+  canvas: HTMLCanvasElement,
   data: MulData[],
   section: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -321,9 +245,9 @@ function createCollatzUniverse(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   OrbitControls: any
 ): { cleanup: () => void } {
-  // Use fallback dimensions if container doesn't have proper dimensions
-  const width = container.clientWidth || container.offsetWidth || 800;
-  const height = container.clientHeight || container.offsetHeight || 600;
+  // Get canvas dimensions
+  const width = canvas.clientWidth || 800;
+  const height = canvas.clientHeight || 600;
   
   // Scene setup
   const scene = new THREE.Scene();
@@ -349,46 +273,43 @@ function createCollatzUniverse(
   const starfield = new THREE.Points(starfieldGeometry, starfieldMaterial);
   scene.add(starfield);
 
-  // Camera
-  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 2000);
-  camera.position.set(50, 30, 100);
+  // Camera setup
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+  camera.position.set(0, 50, 100);
 
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({
+  // Renderer setup
+  const renderer = new THREE.WebGLRenderer({ 
+    canvas: canvas,
     antialias: true,
-    alpha: true,
-    powerPreference: "high-performance"
+    alpha: true 
   });
   renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
-  container.appendChild(renderer.domElement);
+  renderer.setClearColor(0x000000, 0);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(50, 50, 50);
+  scene.add(directionalLight);
+
+  const pointLight = new THREE.PointLight(0x667eea, 1, 1000);
+  pointLight.position.set(0, 100, 0);
+  scene.add(pointLight);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.5;
-  controls.maxDistance = 300;
-  controls.minDistance = 20;
+  controls.screenSpacePanning = false;
+  controls.minDistance = 10;
+  controls.maxDistance = 500;
 
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
-  scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(100, 100, 50);
-  directionalLight.castShadow = true;
-  scene.add(directionalLight);
-
-  // Create different visualization modes based on section
+  // Create visualization based on section
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let visualizationGroup: any;
-
+  
   switch (section) {
     case "orbits":
       visualizationGroup = createOrbitalVisualization(data, THREE);
@@ -434,40 +355,32 @@ function createCollatzUniverse(
     
     // Render
     renderer.render(scene, camera);
+    
+    // Continue animation
     requestAnimationFrame(animate);
   };
 
-  animate();
-
   // Handle window resize
   const handleResize = () => {
-    const newWidth = container.clientWidth;
-    const newHeight = container.clientHeight;
+    const newWidth = canvas.clientWidth || 800;
+    const newHeight = canvas.clientHeight || 600;
     
     camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(newWidth, newHeight);
   };
 
+  // Start animation
+  animate();
+
+  // Add resize listener
   window.addEventListener('resize', handleResize);
 
   // Cleanup function
   const cleanup = () => {
     window.removeEventListener('resize', handleResize);
-    
-    // Safely remove renderer
-    if (renderer && renderer.domElement && container.contains(renderer.domElement)) {
-      try {
-        container.removeChild(renderer.domElement);
-      } catch (error) {
-        console.warn('Error removing renderer:', error);
-      }
-    }
-    
-    // Dispose renderer
-    if (renderer) {
-      renderer.dispose();
-    }
+    renderer.dispose();
+    controls.dispose();
   };
 
   return { cleanup };
