@@ -20,6 +20,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
   const [isClient, setIsClient] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isInitializing, setIsInitializing] = useState(false);
   const isMountedRef = useRef(true);
 
   // Set isClient to true when component mounts on client
@@ -40,14 +41,20 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       currentSection
     });
     
-    if (!mountRef.current || !data.length || !isClient) {
-      console.log('Skipping 3D scene creation - missing requirements');
+    if (!mountRef.current || !data.length || !isClient || isInitializing) {
+      console.log('Skipping 3D scene creation - missing requirements or already initializing');
       return;
     }
 
+    setIsInitializing(true);
+
     // Clear previous content safely
     if (cleanupRef.current) {
-      cleanupRef.current();
+      try {
+        cleanupRef.current();
+      } catch (error) {
+        console.warn('Error during cleanup:', error);
+      }
       cleanupRef.current = null;
     }
 
@@ -55,25 +62,23 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     setHasError(false);
     setErrorMessage("");
 
-    // Safely clear container
+    // Safely clear container - use a more robust approach
     const container = mountRef.current;
     if (container) {
       try {
-        // Use innerHTML to clear all children at once - safer than removeChild
+        // First try to clear with innerHTML
         container.innerHTML = '';
       } catch (error) {
         console.warn('Error clearing container with innerHTML:', error);
-        // Fallback: try to remove children one by one
-        const children = Array.from(container.children);
-        children.forEach((child: Element) => {
-          try {
-            if (child.parentNode === container) {
-              container.removeChild(child);
-            }
-          } catch (removeError) {
-            console.warn('Error removing child:', removeError);
+        // If that fails, try a more careful approach
+        try {
+          while (container.firstChild) {
+            container.removeChild(container.firstChild);
           }
-        });
+        } catch (removeError) {
+          console.warn('Error removing children:', removeError);
+          // Last resort: just log the error and continue
+        }
       }
     }
 
@@ -121,6 +126,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
                 if (isMountedRef.current) {
                   console.log('3D universe created successfully');
                   setIsLoading(false);
+                  setIsInitializing(false);
                 }
               } catch (universeError) {
                 console.error('Error creating 3D universe:', universeError);
@@ -133,6 +139,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
               setHasError(true);
               setErrorMessage(`Failed to load Three.js: ${importError.message}. Please refresh the page.`);
               setIsLoading(false);
+              setIsInitializing(false);
             }
           });
           return; // Exit early since we're using async imports
@@ -149,6 +156,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         if (isMountedRef.current) {
           console.log('3D universe created successfully');
           setIsLoading(false);
+          setIsInitializing(false);
         }
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -158,6 +166,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
             setHasError(true);
             setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
             setIsLoading(false);
+            setIsInitializing(false);
           }
         }
     };
@@ -169,6 +178,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         setHasError(true);
         setErrorMessage("3D visualization took too long to load. Please refresh the page.");
         setIsLoading(false);
+        setIsInitializing(false);
       }
     }, 10000); // 10 second timeout
 
@@ -192,6 +202,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           setHasError(true);
           setErrorMessage("Failed to initialize 3D visualization: Container not available");
           setIsLoading(false);
+          setIsInitializing(false);
         }
       }
     };
@@ -201,6 +212,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 
     return () => {
       clearTimeout(timeoutId);
+      setIsInitializing(false);
       if (cleanupRef.current && isMountedRef.current) {
         try {
           cleanupRef.current();
@@ -210,7 +222,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         cleanupRef.current = null;
       }
     };
-  }, [data, currentSection, isClient, isLoading]);
+  }, [data, currentSection, isClient]);
 
   const sections = [
     { id: "orbits", name: "Orbital Patterns", description: "Explore the orbital dynamics" },
