@@ -172,10 +172,50 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }, 10000); // 10 second timeout
 
-    // Add a small delay to ensure DOM is ready
-    setTimeout(() => {
+    // Add a more robust delay and retry mechanism to ensure DOM is ready
+    const attemptInitialization = (attempts = 0) => {
+      if (!mountRef.current) {
+        if (attempts < 10) {
+          console.log(`Container not ready, retrying in 200ms (attempt ${attempts + 1}/10)`);
+          setTimeout(() => attemptInitialization(attempts + 1), 200);
+        } else {
+          console.error('Container never became available after 10 attempts');
+          if (isMountedRef.current) {
+            setHasError(true);
+            setErrorMessage("Failed to initialize 3D visualization: Container not available");
+            setIsLoading(false);
+          }
+        }
+        return;
+      }
+      
+      console.log('Container is ready, checking dimensions...');
+      
+      // Ensure container has proper dimensions
+      if (!mountRef.current.clientWidth || !mountRef.current.clientHeight) {
+        console.log('Container has no dimensions, waiting for layout...');
+        // Wait for next frame to allow layout to complete
+        requestAnimationFrame(() => {
+          if (mountRef.current && mountRef.current.clientWidth && mountRef.current.clientHeight) {
+            console.log('Container dimensions ready, initializing Three.js...');
+            initializeThreeJS();
+          } else {
+            console.error('Container still has no dimensions after layout');
+            if (isMountedRef.current) {
+              setHasError(true);
+              setErrorMessage("Failed to initialize 3D visualization: Container has no dimensions");
+              setIsLoading(false);
+            }
+          }
+        });
+        return;
+      }
+      
+      console.log('Container dimensions ready, initializing Three.js...');
       initializeThreeJS();
-    }, 100);
+    };
+    
+    attemptInitialization();
 
     return () => {
       clearTimeout(timeoutId);
