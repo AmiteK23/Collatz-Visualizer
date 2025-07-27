@@ -200,6 +200,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 /**
  * Creates the immersive Collatz universe scene
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createCollatzUniverse(
   container: HTMLDivElement,
   data: MulData[],
@@ -305,6 +306,7 @@ function createCollatzUniverse(
     visualizationGroup.rotation.y = elapsedTime * 0.2;
     
     // Animate individual elements
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     visualizationGroup.children.forEach((child: any, index: number) => {
       if (child instanceof THREE.Mesh) {
         child.rotation.x = Math.sin(elapsedTime + index) * 0.1;
@@ -359,6 +361,7 @@ function createCollatzUniverse(
 /**
  * Creates orbital visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createOrbitalVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
@@ -401,6 +404,7 @@ function createOrbitalVisualization(data: MulData[], THREE: typeof import('three
 /**
  * Creates sequence visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createSequenceVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
@@ -431,6 +435,7 @@ function createSequenceVisualization(data: MulData[], THREE: typeof import('thre
 /**
  * Creates pattern analysis visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createPatternVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
@@ -459,6 +464,7 @@ function createPatternVisualization(data: MulData[], THREE: typeof import('three
 /**
  * Creates insights visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createInsightsVisualization(THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
