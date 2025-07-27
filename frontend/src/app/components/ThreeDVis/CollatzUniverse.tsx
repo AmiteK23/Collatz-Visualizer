@@ -98,33 +98,52 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           console.log('Using global THREE');
         } else {
           // Try to import dynamically
+          console.log('Attempting dynamic import of Three.js...');
           import('three').then((threeModule) => {
-            import('three/examples/jsm/controls/OrbitControls.js').then((controlsModule) => {
+            console.log('Three.js module loaded successfully');
+            return import('three/examples/jsm/controls/OrbitControls.js').then((controlsModule) => {
+              console.log('OrbitControls module loaded successfully');
               THREE = threeModule;
               OrbitControls = controlsModule.OrbitControls;
               
-              console.log('Creating 3D universe...');
-              const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
-              cleanupRef.current = cleanup;
-              
-              if (isMountedRef.current) {
-                console.log('3D universe created successfully');
-                setIsLoading(false);
+              if (!THREE || !OrbitControls) {
+                throw new Error('Three.js or OrbitControls not properly loaded');
               }
-            }).catch((controlsError) => {
-              console.error('Error loading OrbitControls:', controlsError);
-              throw new Error('Failed to load OrbitControls');
+              
+              console.log('Creating 3D universe...');
+              try {
+                if (!mountRef.current) {
+                  throw new Error('Container element is not available');
+                }
+                const { cleanup } = createCollatzUniverse(mountRef.current, data, currentSection, THREE, OrbitControls);
+                cleanupRef.current = cleanup;
+                
+                if (isMountedRef.current) {
+                  console.log('3D universe created successfully');
+                  setIsLoading(false);
+                }
+              } catch (universeError) {
+                console.error('Error creating 3D universe:', universeError);
+                throw new Error(`Failed to create 3D universe: ${universeError}`);
+              }
             });
-          }).catch((threeError) => {
-            console.error('Error loading Three.js:', threeError);
-            throw new Error('Failed to load Three.js');
+          }).catch((importError) => {
+            console.error('Error in dynamic import:', importError);
+            if (isMountedRef.current) {
+              setHasError(true);
+              setErrorMessage(`Failed to load Three.js: ${importError.message}. Please refresh the page.`);
+              setIsLoading(false);
+            }
           });
           return; // Exit early since we're using async imports
         }
         
         // If we have THREE from global scope, create the universe
         console.log('Creating 3D universe...');
-        const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
+        if (!mountRef.current) {
+          throw new Error('Container element is not available');
+        }
+        const { cleanup } = createCollatzUniverse(mountRef.current, data, currentSection, THREE, OrbitControls);
         cleanupRef.current = cleanup;
         
         if (isMountedRef.current) {
@@ -153,7 +172,10 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }, 10000); // 10 second timeout
 
-    initializeThreeJS();
+    // Add a small delay to ensure DOM is ready
+    setTimeout(() => {
+      initializeThreeJS();
+    }, 100);
 
     return () => {
       clearTimeout(timeoutId);
@@ -260,10 +282,15 @@ function createCollatzUniverse(
   container: HTMLDivElement,
   data: MulData[],
   section: string,
-  THREE: typeof import('three'),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  THREE: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   OrbitControls: any
 ): { cleanup: () => void } {
+  if (!container || !container.clientWidth || !container.clientHeight) {
+    throw new Error('Container has invalid dimensions');
+  }
+  
   const width = container.clientWidth;
   const height = container.clientHeight;
   
