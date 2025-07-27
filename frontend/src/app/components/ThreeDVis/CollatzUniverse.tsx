@@ -77,30 +77,76 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }
 
-    // Dynamically import Three.js to ensure it's available
+        // Try to initialize Three.js with fallback
     const initializeThreeJS = async () => {
       try {
-        const THREE = await import('three');
-        const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js');
+        console.log('Starting Three.js initialization...');
         
+        let THREE: any;
+        let OrbitControls: any;
+        
+        // Try dynamic import first
+        try {
+          console.log('Attempting dynamic import...');
+          THREE = await import('three');
+          const orbitControlsModule = await import('three/examples/jsm/controls/OrbitControls.js');
+          OrbitControls = orbitControlsModule.OrbitControls;
+          console.log('Dynamic import successful');
+        } catch (dynamicError) {
+          console.warn('Dynamic import failed, trying alternative approach:', dynamicError);
+          
+          // Fallback: try to access from window object (if already loaded)
+          if (typeof window !== 'undefined' && (window as any).THREE) {
+            THREE = (window as any).THREE;
+            OrbitControls = (window as any).THREE.OrbitControls;
+            console.log('Using window.THREE fallback');
+          } else {
+            throw new Error('Three.js not available via dynamic import or window object');
+          }
+        }
+        
+        if (!THREE) {
+          throw new Error('Three.js library could not be loaded');
+        }
+        
+        console.log('Creating 3D universe...');
         const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
         cleanupRef.current = cleanup;
+        
         if (isMountedRef.current) {
+          console.log('3D universe created successfully');
           setIsLoading(false);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error loading Three.js:', error);
+        console.error('Error details:', {
+          name: error?.name,
+          message: error?.message,
+          stack: error?.stack
+        });
+        
         if (isMountedRef.current) {
           setHasError(true);
-          setErrorMessage("Failed to load 3D graphics library. Please try refreshing the page.");
+          setErrorMessage(`Failed to load 3D graphics library: ${error?.message || 'Unknown error'}. Please try refreshing the page.`);
           setIsLoading(false);
         }
       }
     };
 
+    // Add a timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      console.log('Three.js initialization timeout - showing error');
+      if (isMountedRef.current && isLoading) {
+        setHasError(true);
+        setErrorMessage("3D graphics library took too long to load. Please check your internet connection and try again.");
+        setIsLoading(false);
+      }
+    }, 10000); // 10 second timeout
+
     initializeThreeJS();
 
     return () => {
+      clearTimeout(timeoutId);
       if (cleanupRef.current && isMountedRef.current) {
         try {
           cleanupRef.current();
