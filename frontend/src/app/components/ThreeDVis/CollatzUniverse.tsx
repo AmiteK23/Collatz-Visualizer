@@ -200,12 +200,12 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 /**
  * Creates the immersive Collatz universe scene
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createCollatzUniverse(
   container: HTMLDivElement,
   data: MulData[],
   section: string,
   THREE: typeof import('three'),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   OrbitControls: any
 ): { cleanup: () => void } {
   const width = container.clientWidth;
