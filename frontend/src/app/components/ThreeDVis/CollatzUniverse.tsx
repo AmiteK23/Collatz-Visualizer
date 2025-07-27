@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { MulData } from "./types";
 import styles from "./ThreeDVis.module.scss";
 
@@ -20,6 +18,8 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
   const [currentSection, setCurrentSection] = useState("orbits");
   const [isLoading, setIsLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const isMountedRef = useRef(true);
 
   // Set isClient to true when component mounts on client
@@ -51,6 +51,10 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       cleanupRef.current = null;
     }
 
+    // Reset error state
+    setHasError(false);
+    setErrorMessage("");
+
     // Safely clear container
     const container = mountRef.current;
     if (container) {
@@ -73,18 +77,28 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }
 
-    try {
-      const { cleanup } = createCollatzUniverse(mountRef.current, data, currentSection);
-      cleanupRef.current = cleanup;
-      if (isMountedRef.current) {
-        setIsLoading(false);
+    // Dynamically import Three.js to ensure it's available
+    const initializeThreeJS = async () => {
+      try {
+        const THREE = await import('three');
+        const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js');
+        
+        const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
+        cleanupRef.current = cleanup;
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Error loading Three.js:', error);
+        if (isMountedRef.current) {
+          setHasError(true);
+          setErrorMessage("Failed to load 3D graphics library. Please try refreshing the page.");
+          setIsLoading(false);
+        }
       }
-    } catch (error) {
-      console.warn('Error creating 3D scene:', error);
-      if (isMountedRef.current) {
-        setIsLoading(false);
-      }
-    }
+    };
+
+    initializeThreeJS();
 
     return () => {
       if (cleanupRef.current && isMountedRef.current) {
@@ -104,6 +118,28 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     { id: "patterns", name: "Pattern Analysis", description: "Discover hidden structures" },
     { id: "insights", name: "Your Insights", description: "Your Collatz discoveries" }
   ];
+
+  const handleRetry = () => {
+    setHasError(false);
+    setErrorMessage("");
+    setIsLoading(true);
+    // Force re-render by updating a state
+    setCurrentSection(currentSection);
+  };
+
+  if (hasError) {
+    return (
+      <div className={styles.collatzUniverse}>
+        <div className={styles.errorContainer}>
+          <h2>Something went wrong with the 3D visualization</h2>
+          <p>{errorMessage}</p>
+          <button onClick={handleRetry} className={styles.retryButton}>
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.collatzUniverse}>
@@ -167,15 +203,10 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 function createCollatzUniverse(
   container: HTMLDivElement,
   data: MulData[],
-  section: string
+  section: string,
+  THREE: typeof import('three'),
+  OrbitControls: any
 ): { cleanup: () => void } {
-  // Check if Three.js is available
-  if (typeof THREE === 'undefined') {
-    console.error('Three.js is not available');
-    return {
-      cleanup: () => {}
-    };
-  }
   const width = container.clientWidth;
   const height = container.clientHeight;
   
@@ -244,19 +275,19 @@ function createCollatzUniverse(
 
   switch (section) {
     case "orbits":
-      visualizationGroup = createOrbitalVisualization(data);
+      visualizationGroup = createOrbitalVisualization(data, THREE);
       break;
     case "sequences":
-      visualizationGroup = createSequenceVisualization(data);
+      visualizationGroup = createSequenceVisualization(data, THREE);
       break;
     case "patterns":
-      visualizationGroup = createPatternVisualization(data);
+      visualizationGroup = createPatternVisualization(data, THREE);
       break;
     case "insights":
-              visualizationGroup = createInsightsVisualization();
+      visualizationGroup = createInsightsVisualization(THREE);
       break;
     default:
-      visualizationGroup = createOrbitalVisualization(data);
+      visualizationGroup = createOrbitalVisualization(data, THREE);
   }
 
   scene.add(visualizationGroup);
@@ -267,28 +298,23 @@ function createCollatzUniverse(
   const animate = () => {
     const elapsedTime = clock.getElapsedTime();
     
-    // Animate starfield
+    // Rotate starfield
     starfield.rotation.y = elapsedTime * 0.1;
     
-    // Animate visualization
+    // Animate visualization group
     visualizationGroup.rotation.y = elapsedTime * 0.2;
     
-    // Animate individual elements
-    visualizationGroup.children.forEach((child, index) => {
-      if (child instanceof THREE.Mesh) {
-        child.rotation.x = Math.sin(elapsedTime + index) * 0.1;
-        child.rotation.z = Math.cos(elapsedTime + index) * 0.1;
-      }
-    });
-    
+    // Update controls
     controls.update();
+    
+    // Render
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   };
 
   animate();
 
-  // Handle resize
+  // Handle window resize
   const handleResize = () => {
     const newWidth = container.clientWidth;
     const newHeight = container.clientHeight;
@@ -300,38 +326,22 @@ function createCollatzUniverse(
 
   window.addEventListener('resize', handleResize);
 
-  // Cleanup
+  // Cleanup function
   const cleanup = () => {
     window.removeEventListener('resize', handleResize);
     
     // Safely remove renderer
-    if (renderer && renderer.domElement) {
+    if (renderer && renderer.domElement && container.contains(renderer.domElement)) {
       try {
-        // Check if the element is actually in the container before removing
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement);
-        } else {
-          console.warn('Renderer element not found in container');
-        }
+        container.removeChild(renderer.domElement);
       } catch (error) {
         console.warn('Error removing renderer:', error);
       }
     }
     
-    // Dispose renderer and controls
+    // Dispose renderer
     if (renderer) {
-      try {
-        renderer.dispose();
-      } catch (error) {
-        console.warn('Error disposing renderer:', error);
-      }
-    }
-    if (controls) {
-      try {
-        controls.dispose();
-      } catch (error) {
-        console.warn('Error disposing controls:', error);
-      }
+      renderer.dispose();
     }
   };
 
@@ -341,49 +351,42 @@ function createCollatzUniverse(
 /**
  * Creates orbital visualization
  */
-function createOrbitalVisualization(data: MulData[]): THREE.Group {
+function createOrbitalVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
-  data.forEach((item, index) => {
-    const radius = 10 + (item.n % 20) * 2;
-    const angle = (index / data.length) * Math.PI * 2;
-    
+  data.forEach((item) => {
     // Create orbital ring
-    const ringGeometry = new THREE.RingGeometry(radius - 0.5, radius + 0.5, 32);
-    const ringMaterial = new THREE.MeshPhongMaterial({
+    const radius = 5 + (item.n % 10) * 2;
+    const geometry = new THREE.RingGeometry(radius - 0.1, radius + 0.1, 32);
+    const material = new THREE.MeshBasicMaterial({
       color: getColorForNumber(item.n),
       transparent: true,
-      opacity: 0.6,
-      side: THREE.DoubleSide
+      opacity: 0.6
     });
-    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    const ring = new THREE.Mesh(geometry, material);
     ring.rotation.x = Math.PI / 2;
     ring.position.y = (item.timesStayedOdd / 10) * 5;
     group.add(ring);
     
-    // Create central sphere
-    const sphereGeometry = new THREE.SphereGeometry(1, 16, 16);
-    const sphereMaterial = new THREE.MeshPhongMaterial({
+    // Add orbital point
+    const pointGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const pointMaterial = new THREE.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       emissive: getColorForNumber(item.n),
-      emissiveIntensity: 0.2
+      emissiveIntensity: 0.3
     });
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.set(
-      Math.cos(angle) * radius,
-      (item.timesStayedOdd / 10) * 5,
-      Math.sin(angle) * radius
-    );
-    group.add(sphere);
+    const point = new THREE.Mesh(pointGeometry, pointMaterial);
+    point.position.set(radius, (item.timesStayedOdd / 10) * 5, 0);
+    group.add(point);
   });
   
   return group;
 }
 
 /**
- * Creates sequence flow visualization
+ * Creates sequence visualization
  */
-function createSequenceVisualization(data: MulData[]): THREE.Group {
+function createSequenceVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
   data.forEach((item, index) => {
@@ -413,7 +416,7 @@ function createSequenceVisualization(data: MulData[]): THREE.Group {
 /**
  * Creates pattern analysis visualization
  */
-function createPatternVisualization(data: MulData[]): THREE.Group {
+function createPatternVisualization(data: MulData[], THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
   // Create a 3D scatter plot
@@ -441,7 +444,7 @@ function createPatternVisualization(data: MulData[]): THREE.Group {
 /**
  * Creates insights visualization
  */
-function createInsightsVisualization(): THREE.Group {
+function createInsightsVisualization(THREE: typeof import('three')): any {
   const group = new THREE.Group();
   
   // Create mathematical symbols and insights
