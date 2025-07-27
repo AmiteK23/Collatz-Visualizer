@@ -272,7 +272,8 @@ function createCollatzUniverse(
   scene.add(directionalLight);
 
   // Create different visualization modes based on section
-  let visualizationGroup: THREE.Group;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let visualizationGroup: any;
 
   switch (section) {
     case "orbits":
