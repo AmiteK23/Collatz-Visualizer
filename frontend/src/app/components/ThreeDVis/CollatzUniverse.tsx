@@ -89,6 +89,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         let OrbitControls: any;
         
         // Check if Three.js is available globally
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (typeof window !== 'undefined' && (window as any).THREE) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           THREE = (window as any).THREE;
