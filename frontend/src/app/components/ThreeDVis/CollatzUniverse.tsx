@@ -190,13 +190,26 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
       
       console.log('Container is ready, checking dimensions...');
+      console.log('Container dimensions:', {
+        width: mountRef.current.clientWidth,
+        height: mountRef.current.clientHeight,
+        offsetWidth: mountRef.current.offsetWidth,
+        offsetHeight: mountRef.current.offsetHeight,
+        getBoundingClientRect: mountRef.current.getBoundingClientRect()
+      });
       
-      // Ensure container has proper dimensions
-      if (!mountRef.current.clientWidth || !mountRef.current.clientHeight) {
+      // Ensure container has proper dimensions (try multiple properties)
+      const containerWidth = mountRef.current.clientWidth || mountRef.current.offsetWidth || mountRef.current.getBoundingClientRect().width;
+      const containerHeight = mountRef.current.clientHeight || mountRef.current.offsetHeight || mountRef.current.getBoundingClientRect().height;
+      
+      if (!containerWidth || !containerHeight) {
         console.log('Container has no dimensions, waiting for layout...');
         // Wait for next frame to allow layout to complete
         requestAnimationFrame(() => {
-          if (mountRef.current && mountRef.current.clientWidth && mountRef.current.clientHeight) {
+          const retryWidth = mountRef.current?.clientWidth || mountRef.current?.offsetWidth || mountRef.current?.getBoundingClientRect().width;
+          const retryHeight = mountRef.current?.clientHeight || mountRef.current?.offsetHeight || mountRef.current?.getBoundingClientRect().height;
+          
+          if (mountRef.current && retryWidth && retryHeight) {
             console.log('Container dimensions ready, initializing Three.js...');
             initializeThreeJS();
           } else {
