@@ -77,38 +77,47 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       }
     }
 
-        // Try to initialize Three.js with fallback
-    const initializeThreeJS = async () => {
+    // Simple initialization with error handling
+    const initializeThreeJS = () => {
       try {
         console.log('Starting Three.js initialization...');
         
+        // Try to access Three.js from global scope or import
         let THREE: any;
         let OrbitControls: any;
         
-        // Try dynamic import first
-        try {
-          console.log('Attempting dynamic import...');
-          THREE = await import('three');
-          const orbitControlsModule = await import('three/examples/jsm/controls/OrbitControls.js');
-          OrbitControls = orbitControlsModule.OrbitControls;
-          console.log('Dynamic import successful');
-        } catch (dynamicError) {
-          console.warn('Dynamic import failed, trying alternative approach:', dynamicError);
-          
-          // Fallback: try to access from window object (if already loaded)
-          if (typeof window !== 'undefined' && (window as any).THREE) {
-            THREE = (window as any).THREE;
-            OrbitControls = (window as any).THREE.OrbitControls;
-            console.log('Using window.THREE fallback');
-          } else {
-            throw new Error('Three.js not available via dynamic import or window object');
-          }
+        // Check if Three.js is available globally
+        if (typeof window !== 'undefined' && (window as any).THREE) {
+          THREE = (window as any).THREE;
+          OrbitControls = (window as any).THREE.OrbitControls;
+          console.log('Using global THREE');
+        } else {
+          // Try to import dynamically
+          import('three').then((threeModule) => {
+            import('three/examples/jsm/controls/OrbitControls.js').then((controlsModule) => {
+              THREE = threeModule;
+              OrbitControls = controlsModule.OrbitControls;
+              
+              console.log('Creating 3D universe...');
+              const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
+              cleanupRef.current = cleanup;
+              
+              if (isMountedRef.current) {
+                console.log('3D universe created successfully');
+                setIsLoading(false);
+              }
+            }).catch((controlsError) => {
+              console.error('Error loading OrbitControls:', controlsError);
+              throw new Error('Failed to load OrbitControls');
+            });
+          }).catch((threeError) => {
+            console.error('Error loading Three.js:', threeError);
+            throw new Error('Failed to load Three.js');
+          });
+          return; // Exit early since we're using async imports
         }
         
-        if (!THREE) {
-          throw new Error('Three.js library could not be loaded');
-        }
-        
+        // If we have THREE from global scope, create the universe
         console.log('Creating 3D universe...');
         const { cleanup } = createCollatzUniverse(mountRef.current!, data, currentSection, THREE, OrbitControls);
         cleanupRef.current = cleanup;
@@ -118,16 +127,11 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           setIsLoading(false);
         }
       } catch (error: any) {
-        console.error('Error loading Three.js:', error);
-        console.error('Error details:', {
-          name: error?.name,
-          message: error?.message,
-          stack: error?.stack
-        });
+        console.error('Error in Three.js initialization:', error);
         
         if (isMountedRef.current) {
           setHasError(true);
-          setErrorMessage(`Failed to load 3D graphics library: ${error?.message || 'Unknown error'}. Please try refreshing the page.`);
+          setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
           setIsLoading(false);
         }
       }
@@ -138,7 +142,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       console.log('Three.js initialization timeout - showing error');
       if (isMountedRef.current && isLoading) {
         setHasError(true);
-        setErrorMessage("3D graphics library took too long to load. Please check your internet connection and try again.");
+        setErrorMessage("3D visualization took too long to load. Please refresh the page.");
         setIsLoading(false);
       }
     }, 10000); // 10 second timeout
