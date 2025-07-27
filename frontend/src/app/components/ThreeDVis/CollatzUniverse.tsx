@@ -106,12 +106,12 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           console.log('3D universe created successfully');
           setIsLoading(false);
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Error in Three.js initialization:', error);
         
         if (isMountedRef.current) {
           setHasError(true);
-          setErrorMessage(`Failed to initialize 3D visualization: ${error?.message || 'Unknown error'}`);
+          setErrorMessage(`Failed to initialize 3D visualization: ${error instanceof Error ? error.message : 'Unknown error'}`);
           setIsLoading(false);
         }
       }
@@ -156,7 +156,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         }
       }
     };
-  }, [data, currentSection, isClient]);
+  }, [data, currentSection, isClient, isLoading]);
 
   const sections = [
     { id: "orbits", name: "Orbital Patterns", description: "Explore the orbital dynamics" },
