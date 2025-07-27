@@ -135,9 +135,10 @@ export default function UniversePage() {
                     if (range.length === 2 && range[0] <= range[1]) {
                       const [start, end] = range;
                       
-                      // Validate range size
-                      if (end - start > 1000) {
-                        alert('Please enter a smaller range (max 1000 numbers) for better performance.');
+                      // Validate range size (inclusive range)
+                      const rangeSize = end - start + 1;
+                      if (rangeSize > 1000) {
+                        alert(`Please enter a smaller range (max 1000 numbers). Your range ${start}-${end} contains ${rangeSize} numbers.`);
                         return;
                       }
                       

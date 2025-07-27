@@ -237,13 +237,13 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
           </div>
           <div className={styles.stat}>
             <span className={styles.statValue}>
-              {Math.max(...data.map(d => d.timesStayedOdd))}
+              {data.length > 0 ? Math.max(...data.map(d => d.timesStayedOdd)) : 0}
             </span>
             <span className={styles.statLabel}>Max Odd Steps</span>
           </div>
           <div className={styles.stat}>
             <span className={styles.statValue}>
-              {Math.max(...data.map(d => d.divCount))}
+              {data.length > 0 ? Math.max(...data.map(d => d.divCount)) : 0}
             </span>
             <span className={styles.statLabel}>Max Divisions</span>
           </div>
