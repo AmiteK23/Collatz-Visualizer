@@ -6,11 +6,17 @@ import styles from "./ThreeDVis.module.scss";
 
 // Type definitions for Three.js objects
 interface ThreeJSScene {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scene: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   camera: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderer: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   controls: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   starfield: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   visualizationGroup: any;
   cleanup?: () => void;
 }
@@ -107,7 +113,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
       try {
         const controlsModule = await import('three/examples/jsm/controls/OrbitControls.js');
         OrbitControls = controlsModule.OrbitControls;
-      } catch (error) {
+      } catch {
         console.warn('Could not load OrbitControls, using basic camera controls');
         OrbitControls = null;
       }
@@ -368,6 +374,7 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 /**
  * Creates starfield background
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createStarfield(threeModule: any): any {
   const starfieldGeometry = new threeModule.BufferGeometry();
   const starCount = 1000;
@@ -393,6 +400,7 @@ function createStarfield(threeModule: any): any {
 /**
  * Creates visualization based on section
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createVisualization(data: MulData[], section: string, threeModule: any): any {
   switch (section) {
     case "orbits":
@@ -411,6 +419,7 @@ function createVisualization(data: MulData[], section: string, threeModule: any)
 /**
  * Creates orbital visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createOrbitalVisualization(data: MulData[], threeModule: any): any {
   const group = new threeModule.Group();
   
@@ -453,6 +462,7 @@ function createOrbitalVisualization(data: MulData[], threeModule: any): any {
 /**
  * Creates sequence visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createSequenceVisualization(data: MulData[], threeModule: any): any {
   const group = new threeModule.Group();
   
@@ -487,6 +497,7 @@ function createSequenceVisualization(data: MulData[], threeModule: any): any {
 /**
  * Creates pattern analysis visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createPatternVisualization(data: MulData[], threeModule: any): any {
   const group = new threeModule.Group();
   
@@ -515,6 +526,7 @@ function createPatternVisualization(data: MulData[], threeModule: any): any {
 /**
  * Creates insights visualization
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createInsightsVisualization(threeModule: any): any {
   const group = new threeModule.Group();
   
