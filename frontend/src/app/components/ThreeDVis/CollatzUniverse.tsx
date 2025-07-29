@@ -60,19 +60,27 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     setHasError(false);
     setErrorMessage("");
 
-    // Create canvas element if it doesn't exist
-    if (!canvasRef.current && mountRef.current) {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.display = 'block';
-        mountRef.current.appendChild(canvas);
-        canvasRef.current = canvas;
-      } catch (error) {
-        console.warn('Error creating canvas:', error);
-        // Don't throw, let the component handle the error gracefully
+    // Create a standalone canvas element (not managed by React)
+    if (!canvasRef.current) {
+      canvasRef.current = document.createElement('canvas');
+      canvasRef.current.style.width = '100%';
+      canvasRef.current.style.height = '100%';
+      canvasRef.current.style.display = 'block';
+    }
+
+    // Clear the mount container and append the canvas
+    const container = mountRef.current;
+    if (container) {
+      // Use a more robust clearing method
+      while (container.firstChild) {
+        try {
+          container.removeChild(container.firstChild);
+        } catch (error) {
+          console.warn('Error removing child:', error);
+          break;
+        }
       }
+      container.appendChild(canvasRef.current);
     }
 
     // Initialize Three.js with the standalone canvas
@@ -127,8 +135,6 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
     return () => {
       clearTimeout(timeoutId);
       clearTimeout(initTimeoutId);
-      
-      // Run cleanup function first
       if (cleanupRef.current && isMountedRef.current) {
         try {
           cleanupRef.current();
@@ -137,10 +143,18 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
         }
         cleanupRef.current = null;
       }
-      
-      // Clear canvas reference without manual DOM manipulation
-      // Let React handle the DOM cleanup
-      canvasRef.current = null;
+      // Remove the canvas from the container more safely
+      const currentMountRef = mountRef.current;
+      const currentCanvasRef = canvasRef.current;
+      if (currentCanvasRef && currentMountRef) {
+        try {
+          if (currentMountRef.contains(currentCanvasRef)) {
+            currentMountRef.removeChild(currentCanvasRef);
+          }
+        } catch (error) {
+          console.warn('Error removing canvas:', error);
+        }
+      }
     };
   }, [data, currentSection, isClient, isLoading]);
 
