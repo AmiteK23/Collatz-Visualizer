@@ -4,6 +4,17 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { MulData } from "./types";
 import styles from "./ThreeDVis.module.scss";
 
+// Type definitions for Three.js objects
+interface ThreeJSScene {
+  scene: any;
+  camera: any;
+  renderer: any;
+  controls: any;
+  starfield: any;
+  visualizationGroup: any;
+  cleanup?: () => void;
+}
+
 interface CollatzUniverseProps {
   data: MulData[];
   onNavigate?: (section: string) => void;
@@ -14,7 +25,7 @@ interface CollatzUniverseProps {
  */
 export default function CollatzUniverse({ data }: CollatzUniverseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<any>(null);
+  const sceneRef = useRef<ThreeJSScene | null>(null);
   const animationFrameRef = useRef<number>(0);
   const isInitializedRef = useRef(false);
   const [currentSection, setCurrentSection] = useState("orbits");
@@ -357,8 +368,8 @@ export default function CollatzUniverse({ data }: CollatzUniverseProps) {
 /**
  * Creates starfield background
  */
-function createStarfield(THREE: typeof import('three')): any {
-  const starfieldGeometry = new THREE.BufferGeometry();
+function createStarfield(threeModule: any): any {
+  const starfieldGeometry = new threeModule.BufferGeometry();
   const starCount = 1000;
   const starPositions = new Float32Array(starCount * 3);
   
@@ -368,66 +379,66 @@ function createStarfield(THREE: typeof import('three')): any {
     starPositions[i + 2] = (Math.random() - 0.5) * 2000;
   }
   
-  starfieldGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-  const starfieldMaterial = new THREE.PointsMaterial({
+  starfieldGeometry.setAttribute('position', new threeModule.BufferAttribute(starPositions, 3));
+  const starfieldMaterial = new threeModule.PointsMaterial({
     color: 0xffffff,
     size: 2,
     transparent: true,
     opacity: 0.8
   });
   
-  return new THREE.Points(starfieldGeometry, starfieldMaterial);
+  return new threeModule.Points(starfieldGeometry, starfieldMaterial);
 }
 
 /**
  * Creates visualization based on section
  */
-function createVisualization(data: MulData[], section: string, THREE: typeof import('three')): any {
+function createVisualization(data: MulData[], section: string, threeModule: any): any {
   switch (section) {
     case "orbits":
-      return createOrbitalVisualization(data, THREE);
+      return createOrbitalVisualization(data, threeModule);
     case "sequences":
-      return createSequenceVisualization(data, THREE);
+      return createSequenceVisualization(data, threeModule);
     case "patterns":
-      return createPatternVisualization(data, THREE);
+      return createPatternVisualization(data, threeModule);
     case "insights":
-      return createInsightsVisualization(THREE);
+      return createInsightsVisualization(threeModule);
     default:
-      return createOrbitalVisualization(data, THREE);
+      return createOrbitalVisualization(data, threeModule);
   }
 }
 
 /**
  * Creates orbital visualization
  */
-function createOrbitalVisualization(data: MulData[], THREE: typeof import('three')): any {
-  const group = new THREE.Group();
+function createOrbitalVisualization(data: MulData[], threeModule: any): any {
+  const group = new threeModule.Group();
   
   data.forEach((item, index) => {
     const radius = 10 + (item.n % 20) * 2;
     const angle = (index / data.length) * Math.PI * 2;
     
     // Create orbital ring
-    const ringGeometry = new THREE.RingGeometry(radius - 0.5, radius + 0.5, 32);
-    const ringMaterial = new THREE.MeshPhongMaterial({
+    const ringGeometry = new threeModule.RingGeometry(radius - 0.5, radius + 0.5, 32);
+    const ringMaterial = new threeModule.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       transparent: true,
       opacity: 0.6,
-      side: THREE.DoubleSide
+      side: threeModule.DoubleSide
     });
-    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    const ring = new threeModule.Mesh(ringGeometry, ringMaterial);
     ring.rotation.x = Math.PI / 2;
     ring.position.y = (item.timesStayedOdd / 10) * 5;
     group.add(ring);
     
     // Create central sphere
-    const sphereGeometry = new THREE.SphereGeometry(1, 16, 16);
-    const sphereMaterial = new THREE.MeshPhongMaterial({
+    const sphereGeometry = new threeModule.SphereGeometry(1, 16, 16);
+    const sphereMaterial = new threeModule.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       emissive: getColorForNumber(item.n),
       emissiveIntensity: 0.2
     });
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    const sphere = new threeModule.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.set(
       Math.cos(angle) * radius,
       (item.timesStayedOdd / 10) * 5,
@@ -442,8 +453,8 @@ function createOrbitalVisualization(data: MulData[], THREE: typeof import('three
 /**
  * Creates sequence visualization
  */
-function createSequenceVisualization(data: MulData[], THREE: typeof import('three')): any {
-  const group = new THREE.Group();
+function createSequenceVisualization(data: MulData[], threeModule: any): any {
+  const group = new threeModule.Group();
   
   data.forEach((item, index) => {
     if (item.multiplyChain && item.multiplyChain.length > 1) {
@@ -453,18 +464,18 @@ function createSequenceVisualization(data: MulData[], THREE: typeof import('thre
         const x = i * 2;
         const y = Math.log(Math.max(item.multiplyChain[i], 1)) * 2;
         const z = index * 3;
-        points.push(new THREE.Vector3(x, y, z));
+        points.push(new threeModule.Vector3(x, y, z));
       }
       
       if (points.length > 1) {
-        const curve = new THREE.CatmullRomCurve3(points);
-        const geometry = new THREE.TubeGeometry(curve, 64, 0.3, 8, false);
-        const material = new THREE.MeshPhongMaterial({
+        const curve = new threeModule.CatmullRomCurve3(points);
+        const geometry = new threeModule.TubeGeometry(curve, 64, 0.3, 8, false);
+        const material = new threeModule.MeshPhongMaterial({
           color: getColorForNumber(item.n),
           transparent: true,
           opacity: 0.8
         });
-        const tube = new THREE.Mesh(geometry, material);
+        const tube = new threeModule.Mesh(geometry, material);
         group.add(tube);
       }
     }
@@ -476,18 +487,18 @@ function createSequenceVisualization(data: MulData[], THREE: typeof import('thre
 /**
  * Creates pattern analysis visualization
  */
-function createPatternVisualization(data: MulData[], THREE: typeof import('three')): any {
-  const group = new THREE.Group();
+function createPatternVisualization(data: MulData[], threeModule: any): any {
+  const group = new threeModule.Group();
   
   // Create a 3D scatter plot
   data.forEach((item) => {
-    const geometry = new THREE.SphereGeometry(0.5, 8, 8);
-    const material = new THREE.MeshPhongMaterial({
+    const geometry = new threeModule.SphereGeometry(0.5, 8, 8);
+    const material = new threeModule.MeshPhongMaterial({
       color: getColorForNumber(item.n),
       emissive: getColorForNumber(item.n),
       emissiveIntensity: 0.3
     });
-    const sphere = new THREE.Mesh(geometry, material);
+    const sphere = new threeModule.Mesh(geometry, material);
     
     sphere.position.set(
       (item.n % 100) / 10,
@@ -504,8 +515,8 @@ function createPatternVisualization(data: MulData[], THREE: typeof import('three
 /**
  * Creates insights visualization
  */
-function createInsightsVisualization(THREE: typeof import('three')): any {
-  const group = new THREE.Group();
+function createInsightsVisualization(threeModule: any): any {
+  const group = new threeModule.Group();
   
   // Create mathematical symbols and insights
   const symbols = ['∑', '∫', 'π', '∞', 'φ', '√', '∇', '∂'];
@@ -525,13 +536,13 @@ function createInsightsVisualization(THREE: typeof import('three')): any {
       context.textBaseline = 'middle';
       context.fillText(symbol, 64, 64);
       
-      const texture = new THREE.CanvasTexture(canvas);
-      const material = new THREE.SpriteMaterial({ 
+      const texture = new threeModule.CanvasTexture(canvas);
+      const material = new threeModule.SpriteMaterial({ 
         map: texture, 
         transparent: true,
         opacity: 0.8
       });
-      const sprite = new THREE.Sprite(material);
+      const sprite = new threeModule.Sprite(material);
       
       const angle = (index / symbols.length) * Math.PI * 2;
       sprite.position.set(
